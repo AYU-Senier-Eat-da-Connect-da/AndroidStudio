@@ -13,9 +13,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btn_loginPage;
-    private Button btn_joinPage;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        btn_loginPage = findViewById(R.id.btn_loginPage);
+        Button btn_loginPage = findViewById(R.id.btn_loginPage);
         btn_loginPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        btn_joinPage = findViewById(R.id.btn_joinPage);
+        Button btn_joinPage = findViewById(R.id.btn_joinPage);
         btn_joinPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

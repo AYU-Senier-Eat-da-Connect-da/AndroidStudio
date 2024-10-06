@@ -11,11 +11,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class Join extends AppCompatActivity {
+import com.eatda.child.ChildJoin;
+import com.eatda.president.PresidentJoin;
+import com.eatda.sponsor.SponsorJoin;
 
-    private Button btn_president;
-    private Button btn_child;
-    private Button btn_sponsor;
+public class Join extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,29 +28,38 @@ public class Join extends AppCompatActivity {
             return insets;
         });
 
-        btn_president = findViewById(R.id.btn_president);
+        Button btn_president = findViewById(R.id.btn_president);
         btn_president.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Join.this, JoinPresident.class);
+                Intent intent = new Intent(Join.this, PresidentJoin.class);
                 startActivity(intent);
             }
         });
 
-        btn_child = findViewById(R.id.btn_child);
+        Button btn_child = findViewById(R.id.btn_child);
         btn_child.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Join.this, JoinChild.class);
+                Intent intent = new Intent(Join.this, ChildJoin.class);
                 startActivity(intent);
             }
         });
 
-        btn_sponsor = findViewById(R.id.btn_sponsor);
+        Button btn_sponsor = findViewById(R.id.btn_sponsor);
         btn_sponsor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Join.this, JoinSponsor.class);
+                Intent intent = new Intent(Join.this, SponsorJoin.class);
+                startActivity(intent);
+            }
+        });
+
+        Button btn_Previous = findViewById(R.id.btn_Previous);
+        btn_Previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Join.this, MainActivity.class);
                 startActivity(intent);
             }
         });
