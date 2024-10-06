@@ -11,10 +11,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class Login extends AppCompatActivity {
+import com.eatda.home.Home;
 
-    private Button btn_login;
-    private Button btn_loginPrevious;
+public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,7 @@ public class Login extends AppCompatActivity {
             return insets;
         });
 
-        btn_login = findViewById(R.id.btn_login);
+        Button btn_login = findViewById(R.id.btn_login);
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,7 +35,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        btn_loginPrevious = findViewById(R.id.btn_loginPrevious);
+        Button btn_loginPrevious = findViewById(R.id.btn_loginPrevious);
         btn_loginPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

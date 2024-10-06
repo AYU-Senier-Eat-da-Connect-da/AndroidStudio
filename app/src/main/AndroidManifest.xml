@@ -13,16 +13,16 @@
         android:theme="@style/Theme.Eatda"
         tools:targetApi="31">
         <activity
-            android:name=".Test"
+            android:name=".child.ChildCardJoin"
             android:exported="false" />
         <activity
-            android:name=".JoinSponsor"
+            android:name=".child.ChildJoin"
             android:exported="false" />
         <activity
-            android:name=".JoinPresident"
+            android:name=".sponsor.SponsorJoin"
             android:exported="false" />
         <activity
-            android:name=".JoinChild"
+            android:name=".president.PresidentJoin"
             android:exported="false" />
         <activity
             android:name=".Join"
@@ -31,7 +31,7 @@
             android:name=".Login"
             android:exported="false" />
         <activity
-            android:name=".Home"
+            android:name=".home.Home"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

@@ -1,4 +1,4 @@
-package com.eatda;
+package com.eatda.sponsor;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,36 +11,37 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class JoinSponsor extends AppCompatActivity {
+import com.eatda.Join;
+import com.eatda.Login;
+import com.eatda.R;
 
-    private Button btn_sponsorEnter;
-    private Button btn_sponsorPrevious;
+public class SponsorJoin extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_join_sponsor);
+        setContentView(R.layout.activity_sponsor_join);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        btn_sponsorEnter = findViewById(R.id.btn_sponsorEnter);
+        Button btn_sponsorEnter = findViewById(R.id.btn_sponsorEnter);
         btn_sponsorEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(JoinSponsor.this, Login.class);
+                Intent intent = new Intent(SponsorJoin.this, Login.class);
                 startActivity(intent);
             }
         });
 
-        btn_sponsorPrevious = findViewById(R.id.btn_sponsorPrevious);
+        Button btn_sponsorPrevious = findViewById(R.id.btn_sponsorPrevious);
         btn_sponsorPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(JoinSponsor.this, Join.class);
+                Intent intent = new Intent(SponsorJoin.this, Join.class);
                 startActivity(intent);
             }
         });
