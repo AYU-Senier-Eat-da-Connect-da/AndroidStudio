@@ -13,6 +13,21 @@
         android:theme="@style/Theme.Eatda"
         tools:targetApi="31">
         <activity
+            android:name=".sponsor.SponsorHelp"
+            android:exported="false" />
+        <activity
+            android:name=".sponsor.Support"
+            android:exported="false" />
+        <activity
+            android:name=".sponsor.ChildMgmt"
+            android:exported="false" />
+        <activity
+            android:name=".sponsor.ChildList"
+            android:exported="false" />
+        <activity
+            android:name=".sponsor.SponsorMyPage"
+            android:exported="false" />
+        <activity
             android:name=".president.RestaurantsMgmt"
             android:exported="false" />
         <activity

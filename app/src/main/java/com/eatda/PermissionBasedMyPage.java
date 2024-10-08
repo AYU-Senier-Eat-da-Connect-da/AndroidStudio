@@ -13,11 +13,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.eatda.child.ChildMyPage;
 import com.eatda.president.PresidentMyPage;
+import com.eatda.sponsor.SponsorMyPage;
 
 public class PermissionBasedMyPage extends AppCompatActivity {
 
     private Button btn_child_myPage;
     private Button btn_president_myPage;
+    private Button btn_sponsor_myPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,18 @@ public class PermissionBasedMyPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PermissionBasedMyPage.this, PresidentMyPage.class);
+                startActivity(intent);
+            }
+        });
+
+        /*
+        후원자 마이페이지
+         */
+        btn_sponsor_myPage = findViewById(R.id.btn_sponsor_myPage);
+        btn_sponsor_myPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PermissionBasedMyPage.this, SponsorMyPage.class);
                 startActivity(intent);
             }
         });
