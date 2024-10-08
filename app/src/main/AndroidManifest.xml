@@ -13,6 +13,21 @@
         android:theme="@style/Theme.Eatda"
         tools:targetApi="31">
         <activity
+            android:name=".PermissionBasedMyPage"
+            android:exported="false" />
+        <activity
+            android:name=".child.ChildMyReviewList"
+            android:exported="false" />
+        <activity
+            android:name=".child.ChildMyPage"
+            android:exported="false" />
+        <activity
+            android:name=".child.ChildHelp"
+            android:exported="false" />
+        <activity
+            android:name=".child.ChildBuyList"
+            android:exported="false" />
+        <activity
             android:name=".home.MyLocationMap"
             android:exported="false" />
         <activity
