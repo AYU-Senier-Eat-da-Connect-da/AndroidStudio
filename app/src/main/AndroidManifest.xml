@@ -13,6 +13,18 @@
         android:theme="@style/Theme.Eatda"
         tools:targetApi="31">
         <activity
+            android:name=".president.RestaurantsMgmt"
+            android:exported="false" />
+        <activity
+            android:name=".president.MenuMgmt"
+            android:exported="false" />
+        <activity
+            android:name=".president.PresidentHelp"
+            android:exported="false" />
+        <activity
+            android:name=".president.PresidentMyPage"
+            android:exported="false" />
+        <activity
             android:name=".PermissionBasedMyPage"
             android:exported="false" />
         <activity
