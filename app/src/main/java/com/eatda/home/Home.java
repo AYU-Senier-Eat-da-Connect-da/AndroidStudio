@@ -14,6 +14,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.eatda.PermissionBasedMyPage;
 import com.eatda.R;
 import com.eatda.child.ChildMyPage;
 
@@ -71,7 +72,7 @@ public class Home extends AppCompatActivity {
         btn_permissionBasedMyPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Home.this, ChildMyPage.class);
+                Intent intent = new Intent(Home.this, PermissionBasedMyPage.class);
                 startActivity(intent);
             }
         });
