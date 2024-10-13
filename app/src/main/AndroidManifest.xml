@@ -13,6 +13,48 @@
         android:theme="@style/Theme.Eatda"
         tools:targetApi="31">
         <activity
+            android:name=".sponsor.SponsorHelp"
+            android:exported="false" />
+        <activity
+            android:name=".sponsor.Support"
+            android:exported="false" />
+        <activity
+            android:name=".sponsor.ChildMgmt"
+            android:exported="false" />
+        <activity
+            android:name=".sponsor.ChildList"
+            android:exported="false" />
+        <activity
+            android:name=".sponsor.SponsorMyPage"
+            android:exported="false" />
+        <activity
+            android:name=".president.RestaurantsMgmt"
+            android:exported="false" />
+        <activity
+            android:name=".president.MenuMgmt"
+            android:exported="false" />
+        <activity
+            android:name=".president.PresidentHelp"
+            android:exported="false" />
+        <activity
+            android:name=".president.PresidentMyPage"
+            android:exported="false" />
+        <activity
+            android:name=".PermissionBasedMyPage"
+            android:exported="false" />
+        <activity
+            android:name=".child.ChildMyReviewList"
+            android:exported="false" />
+        <activity
+            android:name=".child.ChildMyPage"
+            android:exported="false" />
+        <activity
+            android:name=".child.ChildHelp"
+            android:exported="false" />
+        <activity
+            android:name=".child.ChildBuyList"
+            android:exported="false" />
+        <activity
             android:name=".home.MyLocationMap"
             android:exported="false" />
         <activity

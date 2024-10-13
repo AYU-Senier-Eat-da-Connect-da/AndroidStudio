@@ -15,11 +15,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.eatda.R;
+import com.eatda.child.ChildMyPage;
 
 public class Home extends AppCompatActivity {
 
     private EditText searchEditText;
     private Button findMyLocation;
+    private Button btn_permissionBasedMyPage;   //권한 별 마이페이지 이동 (임시버튼)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,5 +64,16 @@ public class Home extends AppCompatActivity {
             }
         });
 
+        /*
+        권한 별 마이페이지 이동 (임시버튼)
+         */
+        btn_permissionBasedMyPage = findViewById(R.id.btn_permissionBasedMyPage);
+        btn_permissionBasedMyPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Home.this, ChildMyPage.class);
+                startActivity(intent);
+            }
+        });
     }
 }
