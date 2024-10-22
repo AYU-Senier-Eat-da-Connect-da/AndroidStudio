@@ -1,13 +1,15 @@
-package com.eatda.sponsor.ChildManagement;
+package com.eatda.login;
 
 import com.eatda.Local;
 
-import okhttp3.OkHttpClient;
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class SponsorChildManagementRetrofitClient {
+public class LoginRetrofitClient {
 
     private static Retrofit retrofit;
 
@@ -15,6 +17,7 @@ public class SponsorChildManagementRetrofitClient {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(Local.ip)
+                    .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

@@ -7,6 +7,6 @@ import retrofit2.http.POST;
 
 public interface PresidentBusinessNumberCheckApiService {
     @Headers({"Content-Type: application/json"})
-    @POST("사업자번호")
+    @POST("")
     Call<PresidentBusinessResponse> checkBusinessNumber(@Body PresidentBusinessRequest body);
 }
