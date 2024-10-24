@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -22,7 +23,7 @@ public class Home extends AppCompatActivity {
 
     private EditText searchEditText;
     private Button findMyLocation;
-    private Button btn_permissionBasedMyPage;   //권한 별 마이페이지 이동 (임시버튼)
+    private ImageButton btn_myPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,16 +66,14 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        /*
-        권한 별 마이페이지 이동 (임시버튼)
-         */
-        btn_permissionBasedMyPage = findViewById(R.id.btn_permissionBasedMyPage);
-        btn_permissionBasedMyPage.setOnClickListener(new View.OnClickListener() {
+        btn_myPage = findViewById(R.id.btn_myPage);
+        btn_myPage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent intent = new Intent(Home.this, PermissionBasedMyPage.class);
                 startActivity(intent);
             }
         });
+
     }
 }

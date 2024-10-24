@@ -7,9 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".sponsor.ChildMgmt">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/childContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="후원 아동 관리"/>
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginTop="20dp">
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
