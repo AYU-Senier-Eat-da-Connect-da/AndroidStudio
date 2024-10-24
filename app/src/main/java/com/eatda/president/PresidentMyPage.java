@@ -18,6 +18,7 @@ public class PresidentMyPage extends AppCompatActivity {
     private Button btn_restaurants_mgmt;
     private Button btn_menu_mgmt;
     private Button btn_president_help;
+    private Button btn_president_add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,18 @@ public class PresidentMyPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PresidentMyPage.this, PresidentHelp.class);
+                startActivity(intent);
+            }
+        });
+
+        /*
+        가게 등록
+         */
+        btn_president_add = findViewById(R.id.btn_restaurants_add);
+        btn_president_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PresidentMyPage.this, RestaurantAdd.class);
                 startActivity(intent);
             }
         });

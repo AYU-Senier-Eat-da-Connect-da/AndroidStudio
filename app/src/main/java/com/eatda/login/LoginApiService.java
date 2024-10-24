@@ -20,12 +20,6 @@ public interface LoginApiService {
     @POST("/api/jwt-login/join/child")
     Call<String> joinChild(@Body ChildJoinRequest childJoinRequest);
 
-    @POST("/api/jwt-login/login/president")
-    Call<String> loginPresident(@Body LoginRequest loginRequest);
-
-    @POST("/api/jwt-login/login/child")
-    Call<String> loginChild(@Body LoginRequest loginRequest);
-
-    @POST("/api/jwt-login/login/sponsor")
-    Call<String> loginSponsor(@Body LoginRequest loginRequest);
+    @POST("/api/jwt-login/login")
+    Call<String> loginAll(@Body LoginRequest loginRequest);
 }

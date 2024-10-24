@@ -1,6 +1,10 @@
 package com.eatda;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,8 +23,6 @@ import com.eatda.home.Home;
 import com.eatda.login.LoginApiService;
 import com.eatda.login.LoginRetrofitClient;
 import com.eatda.login.form.LoginRequest;
-import com.eatda.president.PresidentJoin;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,8 +59,6 @@ public class Login extends AppCompatActivity {
                 }else{
                     login(userEmail, userPassword);
                 }
-
-
             }
         });
 
@@ -70,22 +70,26 @@ public class Login extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
-    private void login(String userEmail, String userPassword){
+    private void login(String userEmail, String userPassword) {
         LoginApiService loginApiService = LoginRetrofitClient.getRetrofitInstance().create(LoginApiService.class);
         LoginRequest requestBody = new LoginRequest(userEmail, userPassword);
 
-        Call<String> call = loginApiService.loginPresident(requestBody);
+        Call<String> call = loginApiService.loginAll(requestBody);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.d("Login Retrofit Response : ", "Code :" + response.code() + "Body: " + response.body());
-                if(response.isSuccessful() && response.body()!=null){
+                if (response.isSuccessful() && response.body() != null) {
+                    // JWT 토큰을 SharedPreferences에 저장
+                    saveToken(response.body());
+
                     Toast.makeText(Login.this, "환영합니다.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Login.this, Home.class);
                     startActivity(intent);
-                }else{
+                } else {
                     Toast.makeText(Login.this, "로그인 실패.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -97,6 +101,19 @@ public class Login extends AppCompatActivity {
         });
     }
 
+    private void saveToken(String token) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("jwt_token", token);
+        editor.apply();
+    }
+
+    private String getToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("jwt_token", null);
+    }
+
+
     private void showAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
         builder.setTitle(title);
@@ -104,20 +121,4 @@ public class Login extends AppCompatActivity {
         builder.setPositiveButton("확인", (dialog, which) -> dialog.dismiss());
         builder.show();
     }
-
-    private void loginShowAlertDialog(String title, String message, boolean shouldStartIntent) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton("확인", (dialog, which) -> {
-            dialog.dismiss();
-            // Intent를 실행해야 하는 경우
-            if (shouldStartIntent) {
-                Intent intent = new Intent(Login.this, Home.class);
-                startActivity(intent);
-            }
-        });
-        builder.show();
-    }
-
 }
