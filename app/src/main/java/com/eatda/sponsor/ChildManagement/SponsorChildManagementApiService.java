@@ -13,7 +13,7 @@ import retrofit2.http.Path;
 
 public interface SponsorChildManagementApiService {
     // 후원자에게 모든 아동 리스트를 보여주는 API
-    @GET("/api/child/all")
+    @GET("/api/sponsor/all")
     Call<List<ChildResponse>> getAllChildren();
 
     // 특정 아동의 상세 정보를 가져오는 API

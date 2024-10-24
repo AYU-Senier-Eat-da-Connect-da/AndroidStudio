@@ -1,6 +1,8 @@
 package com.eatda.sponsor;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.auth0.android.jwt.Claim;
+import com.auth0.android.jwt.JWT;
 import com.eatda.R;
 import com.eatda.sponsor.ChildManagement.SponsorChildManagementApiService;
 import com.eatda.sponsor.ChildManagement.SponsorChildManagementRetrofitClient;
@@ -31,6 +35,7 @@ import retrofit2.Response;
 public class ChildList extends AppCompatActivity {
 
     private LinearLayout childContainer;  // 아동 정보를 동적으로 추가할 레이아웃 컨테이너
+    private Long sponsorID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +51,16 @@ public class ChildList extends AppCompatActivity {
             return insets;
         });
 
+        sponsorID = getSubFromToken();
+        Log.d("sponsorID :", "sponsorID" + sponsorID);
+
         fetchChildrenList();
     }
 
     private void fetchChildrenList() {
-        SponsorChildManagementApiService service = SponsorChildManagementRetrofitClient.getRetrofitInstance().create(SponsorChildManagementApiService.class);
+        SponsorChildManagementApiService service = SponsorChildManagementRetrofitClient.getRetrofitInstance(this).create(SponsorChildManagementApiService.class);
 
-        Call<List<ChildResponse>> call = service.getAllChildren();
+        Call<List<ChildResponse>> call = service.getChildren(sponsorID);
         call.enqueue(new Callback<List<ChildResponse>>() {
             @Override
             public void onResponse(Call<List<ChildResponse>> call, Response<List<ChildResponse>> response) {
@@ -92,8 +100,8 @@ public class ChildList extends AppCompatActivity {
             //등록하기 버튼 리스터 추가
             registerButton.setOnClickListener(v -> {
                 // 등록 API 호출
-                SponsorChildManagementApiService service = SponsorChildManagementRetrofitClient.getRetrofitInstance().create(SponsorChildManagementApiService.class);
-                Call<SponsorDTO> call = service.addChildToSponsor(1L, child.getId());  // API 호출
+                SponsorChildManagementApiService service = SponsorChildManagementRetrofitClient.getRetrofitInstance(this).create(SponsorChildManagementApiService.class);
+                Call<SponsorDTO> call = service.addChildToSponsor(sponsorID, child.getId());  // API 호출
 
                 call.enqueue(new Callback<SponsorDTO>() {
                     @Override
@@ -119,6 +127,19 @@ public class ChildList extends AppCompatActivity {
 
             childContainer.addView(childView);  // 동적으로 childView 추가
         }
+    }
+
+    private Long getSubFromToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("jwt_token", null);
+
+        if (token != null) {
+            JWT jwt = new JWT(token);
+            Claim subClaim = jwt.getClaim("sub");
+            return subClaim.asLong();  // sub 값을 Long으로 변환하여 반환
+        }
+
+        return null;
     }
 
 }

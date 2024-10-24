@@ -1,5 +1,7 @@
 package com.eatda.sponsor;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.auth0.android.jwt.Claim;
+import com.auth0.android.jwt.JWT;
 import com.eatda.R;
 import com.eatda.sponsor.ChildManagement.SponsorChildManagementApiService;
 import com.eatda.sponsor.ChildManagement.SponsorChildManagementRetrofitClient;
@@ -30,6 +34,7 @@ import retrofit2.Response;
 public class ChildMgmt extends AppCompatActivity {
 
     private LinearLayout childContainer; // 아동 정보를 표시할 레이아웃
+    private Long sponsorID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +52,14 @@ public class ChildMgmt extends AppCompatActivity {
         // 레이아웃 초기화
         childContainer = findViewById(R.id.childContainer);  // activity_child_mgmt.xml 파일에 정의된 LinearLayout
 
+        sponsorID = getSubFromToken();
+        Log.d("sponsorID :", "현재 후원자 아이디는 " + sponsorID);
         // API 호출
-        fetchChildrenData(1L);
+        fetchChildrenData(sponsorID);
     }
 
     private void fetchChildrenData(Long sponsorId) {
-        SponsorChildManagementApiService service = SponsorChildManagementRetrofitClient.getRetrofitInstance().create(SponsorChildManagementApiService.class);
+        SponsorChildManagementApiService service = SponsorChildManagementRetrofitClient.getRetrofitInstance(this).create(SponsorChildManagementApiService.class);
 
         Call<List<ChildResponse>> call = service.getChildren(sponsorId);
         call.enqueue(new Callback<List<ChildResponse>>() {
@@ -93,8 +100,8 @@ public class ChildMgmt extends AppCompatActivity {
             childAddress.setText(child.getChildAddress());
 
             deleteButton.setOnClickListener(v -> {
-                SponsorChildManagementApiService service = SponsorChildManagementRetrofitClient.getRetrofitInstance().create(SponsorChildManagementApiService.class);
-                Call<SponsorDTO> call = service.deleteChildFromSponsor(1L, child.getId());
+                SponsorChildManagementApiService service = SponsorChildManagementRetrofitClient.getRetrofitInstance(this).create(SponsorChildManagementApiService.class);
+                Call<SponsorDTO> call = service.deleteChildFromSponsor(sponsorID, child.getId());
 
                 call.enqueue(new Callback<SponsorDTO>() {
                     @Override
@@ -122,5 +129,18 @@ public class ChildMgmt extends AppCompatActivity {
             // 컨테이너에 뷰 추가
             childContainer.addView(childView);
         }
+    }
+
+    private Long getSubFromToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("jwt_token", null);
+
+        if (token != null) {
+            JWT jwt = new JWT(token);
+            Claim subClaim = jwt.getClaim("sub");
+            return subClaim.asLong();  // sub 값을 Long으로 변환하여 반환
+        }
+
+        return null;
     }
 }

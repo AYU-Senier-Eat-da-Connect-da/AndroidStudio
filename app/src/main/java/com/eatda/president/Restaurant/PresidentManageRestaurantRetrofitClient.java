@@ -1,4 +1,4 @@
-package com.eatda.sponsor.ChildManagement;
+package com.eatda.president.Restaurant;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,7 +14,7 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SponsorChildManagementRetrofitClient {
+public class PresidentManageRestaurantRetrofitClient {
 
     private static Retrofit retrofit;
 

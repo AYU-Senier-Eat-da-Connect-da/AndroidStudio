@@ -1,13 +1,17 @@
 package com.eatda.home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,9 +19,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.auth0.android.jwt.Claim;
+import com.auth0.android.jwt.JWT;
 import com.eatda.PermissionBasedMyPage;
 import com.eatda.R;
 import com.eatda.child.ChildMyPage;
+import com.eatda.president.PresidentMyPage;
+import com.eatda.sponsor.SponsorMyPage;
 
 public class Home extends AppCompatActivity {
 
@@ -49,13 +57,11 @@ public class Home extends AppCompatActivity {
             }
         });
 
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
 
         findMyLocation = findViewById(R.id.btn_findMyLocation);
         findMyLocation.setOnClickListener(new View.OnClickListener() {
@@ -70,10 +76,35 @@ public class Home extends AppCompatActivity {
         btn_myPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Home.this, PermissionBasedMyPage.class);
-                startActivity(intent);
+                String token = getToken();
+
+                if (token != null) {
+                    JWT jwt = new JWT(token);
+                    Claim authClaim = jwt.getClaim("auth");
+                    String authValue = authClaim.asString();
+
+                    Log.d("JWT Claims", "auth: " + authValue);
+
+                    if ("ROLE_CHILD".equals(authValue)) {
+                        Intent intent = new Intent(Home.this, ChildMyPage.class);
+                        startActivity(intent);
+                    } else if ("ROLE_PRESIDENT".equals(authValue)) {
+                        Intent intent = new Intent(Home.this, PresidentMyPage.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(Home.this, SponsorMyPage.class);
+                        startActivity(intent);
+                    }
+                } else {
+                    Toast.makeText(Home.this, "로그인 정보가 없습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
+    }
+
+    private String getToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("jwt_token", null);
     }
 }
