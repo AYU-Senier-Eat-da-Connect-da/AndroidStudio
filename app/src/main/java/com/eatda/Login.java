@@ -2,16 +2,28 @@ package com.eatda;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.eatda.home.Home;
+import com.eatda.login.LoginApiService;
+import com.eatda.login.LoginRetrofitClient;
+import com.eatda.login.form.LoginRequest;
+import com.eatda.president.PresidentJoin;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
 
@@ -27,11 +39,26 @@ public class Login extends AppCompatActivity {
         });
 
         Button btn_login = findViewById(R.id.btn_login);
+        EditText text_email = findViewById(R.id.loginEmailText);
+        EditText text_password = findViewById(R.id.loginPasswordText);
+
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Login.this, Home.class);
-                startActivity(intent);
+                String userEmail = text_email.getText().toString();
+                String userPassword = text_password.getText().toString();
+
+                if(userEmail.isEmpty() && userPassword.isEmpty()){
+                    showAlertDialog("정보 입력", "사용자 정보를 입력해주세요.");
+                }else if(userEmail.isEmpty()){
+                    showAlertDialog("이메일 입력", "이메일을 입력해주세요.");
+                }else if(userPassword.isEmpty()){
+                    showAlertDialog("비밀번호 입력", "비밀번호를 입력해주세요.");
+                }else{
+                    login(userEmail, userPassword);
+                }
+
+
             }
         });
 
@@ -44,4 +71,53 @@ public class Login extends AppCompatActivity {
             }
         });
     }
+
+    private void login(String userEmail, String userPassword){
+        LoginApiService loginApiService = LoginRetrofitClient.getRetrofitInstance().create(LoginApiService.class);
+        LoginRequest requestBody = new LoginRequest(userEmail, userPassword);
+
+        Call<String> call = loginApiService.loginPresident(requestBody);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.d("Login Retrofit Response : ", "Code :" + response.code() + "Body: " + response.body());
+                if(response.isSuccessful() && response.body()!=null){
+                    Toast.makeText(Login.this, "환영합니다.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Login.this, Home.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(Login.this, "로그인 실패.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(Login.this, "네트워크 오류.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showAlertDialog(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("확인", (dialog, which) -> dialog.dismiss());
+        builder.show();
+    }
+
+    private void loginShowAlertDialog(String title, String message, boolean shouldStartIntent) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("확인", (dialog, which) -> {
+            dialog.dismiss();
+            // Intent를 실행해야 하는 경우
+            if (shouldStartIntent) {
+                Intent intent = new Intent(Login.this, Home.class);
+                startActivity(intent);
+            }
+        });
+        builder.show();
+    }
+
 }
