@@ -19,6 +19,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".president.RestaurantModify"
+            android:exported="false" />
+        <activity
+            android:name=".president.MenuModify"
+            android:exported="false" />
+        <activity
+            android:name=".president.MenuAdd"
+            android:exported="false" />
+        <activity
             android:name=".sponsor.SponsorHelp"
             android:exported="false" />
         <activity

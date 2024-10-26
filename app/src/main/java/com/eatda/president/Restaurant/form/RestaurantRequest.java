@@ -6,22 +6,30 @@ public class RestaurantRequest {
     private String restaurantAddress;
     private String restaurantNumber;
     private String restaurantBody;
+    private String restaurantCategory;
     private Long presidentId;
 
-    // 기본 생성자
     public RestaurantRequest() {
     }
 
-    // 생성자 추가
-    public RestaurantRequest(String restaurantName, String restaurantAddress, String restaurantNumber, String restaurantBody, Long presidentId) {
+    public RestaurantRequest(String restaurantName, String restaurantAddress, String restaurantNumber, String restaurantBody, String restaurantCategory ,Long presidentId) {
         this.restaurantName = restaurantName;
         this.restaurantAddress = restaurantAddress;
         this.restaurantNumber = restaurantNumber;
         this.restaurantBody = restaurantBody;
+        this.restaurantCategory = restaurantCategory;
         this.presidentId = presidentId;
     }
 
-    // Getter methods
+    public RestaurantRequest modifyRestaurant(String restaurantName, String restaurantAddress, String restaurantNumber, String restaurantBody, String restaurantCategory){
+        this.restaurantName = restaurantName;
+        this.restaurantAddress = restaurantAddress;
+        this.restaurantNumber = restaurantNumber;
+        this.restaurantBody = restaurantBody;
+        this.restaurantCategory = restaurantCategory;
+        return this;
+    }
+
     public Long getId() {
         return this.id;
     }
@@ -40,6 +48,10 @@ public class RestaurantRequest {
 
     public String getRestaurantBody() {
         return this.restaurantBody;
+    }
+
+    public String getRestaurantCategory(){
+        return this.restaurantCategory;
     }
 
     public Long getPresidentId() {
