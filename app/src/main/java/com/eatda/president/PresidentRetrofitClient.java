@@ -1,4 +1,4 @@
-package com.eatda.president.Restaurant;
+package com.eatda.president;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,8 +13,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class PresidentManageRestaurantRetrofitClient {
+public class PresidentRetrofitClient {
 
     private static Retrofit retrofit;
 
@@ -44,6 +45,7 @@ public class PresidentManageRestaurantRetrofitClient {
             retrofit = new Retrofit.Builder()
                     .baseUrl(Local.ip)  // API의 base URL
                     .client(client)  // OkHttpClient 사용
+                    .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

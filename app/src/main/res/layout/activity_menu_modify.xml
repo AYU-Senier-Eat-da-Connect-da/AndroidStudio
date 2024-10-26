@@ -10,7 +10,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".president.RestaurantAdd">
+        tools:context=".president.MenuModify">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -29,103 +29,102 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/restaurant_name_label"
+                    android:id="@+id/menu_name_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="식당 이름"
+                    android:text="메뉴 이름"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/restaurant_name"
+                    android:id="@+id/menu_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="새 식당 이름 입력"
+                    android:hint="새 메뉴 이름 입력"
                     android:textSize="16sp"
                     android:textColor="@android:color/darker_gray"
                     android:layout_marginTop="4dp" />
 
                 <TextView
-                    android:id="@+id/restaurant_address_label"
+                    android:id="@+id/menu_body_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="주소"
+                    android:text="메뉴 설명"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
                     android:layout_marginTop="12dp" />
 
                 <EditText
-                    android:id="@+id/restaurant_address"
+                    android:id="@+id/menu_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="새 주소 입력"
+                    android:hint="메뉴 설명 입력"
                     android:textSize="16sp"
                     android:textColor="@android:color/darker_gray"
                     android:layout_marginTop="4dp" />
 
                 <TextView
-                    android:id="@+id/restaurant_number_label"
+                    android:id="@+id/menu_status_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="전화번호"
+                    android:text="판매 상태"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginTop="12dp" />
+
+                <RadioGroup
+                    android:id="@+id/menu_status_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <RadioButton
+                        android:id="@+id/menu_status_available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="주문 가능"
+                        android:textSize="16sp" />
+
+                    <RadioButton
+                        android:id="@+id/menu_status_sold_out"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="품절"
+                        android:textSize="16sp"
+                        android:layout_marginStart="16dp" />
+
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/menu_price_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="가격"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
                     android:layout_marginTop="12dp" />
 
                 <EditText
-                    android:id="@+id/restaurant_number"
+                    android:id="@+id/menu_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="새 전화번호 입력"
+                    android:hint="가격 입력"
                     android:textSize="16sp"
                     android:textColor="@android:color/darker_gray"
-                    android:layout_marginTop="4dp" />
-
-                <TextView
-                    android:id="@+id/restaurant_body_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="가게 설명"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:layout_marginTop="12dp" />
-
-                <EditText
-                    android:id="@+id/restaurant_body"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="새 가게 설명 입력"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_marginTop="4dp" />
-
-                <TextView
-                    android:id="@+id/category_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="카테고리 선택"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:layout_marginTop="12dp" />
-
-                <Spinner
-                    android:id="@+id/category_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="4dp" />
 
                 <Button
-                    android:id="@+id/register_button"
+                    android:id="@+id/modify_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:backgroundTint="#00BFFF"
-                    android:text="등록하기"
+                    android:text="수정 완료"
                     android:textColor="@android:color/white"
                     android:textSize="12sp"
                     android:textStyle="bold" />

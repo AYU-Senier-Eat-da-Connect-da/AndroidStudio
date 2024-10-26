@@ -6,6 +6,7 @@ public class RestaurantResponse {
     private String restaurantAddress;
     private String restaurantNumber;
     private String restaurantBody;
+    private String restaurantCategory;
 
     public Long getId() {
         return this.id;
@@ -25,6 +26,10 @@ public class RestaurantResponse {
 
     public String getRestaurantBody() {
         return this.restaurantBody;
+    }
+
+    public String getRestaurantCategory(){
+        return this.restaurantCategory;
     }
 }
 
