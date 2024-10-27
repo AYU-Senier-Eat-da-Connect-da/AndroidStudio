@@ -1,4 +1,4 @@
-package com.eatda.president;
+package com.eatda.president.Restaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.eatda.R;
-import com.eatda.president.Restaurant.PresidentManageRestaurantApiService;
+import com.eatda.president.PresidentRetrofitClient;
 import com.eatda.president.Restaurant.form.RestaurantRequest;
 
 import retrofit2.Call;

@@ -27,18 +27,26 @@ import com.eatda.child.ChildMyPage;
 import com.eatda.president.PresidentMyPage;
 import com.eatda.sponsor.SponsorMyPage;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Home extends AppCompatActivity {
 
     private EditText searchEditText;
-    private Button findMyLocation;
-    private ImageButton btn_myPage;
+    private Button cultlet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
+        // 텍스트로 검색
         searchEditText = findViewById(R.id.searchEditText);
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -57,13 +65,8 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-        findMyLocation = findViewById(R.id.btn_findMyLocation);
+        // 내 위치로 검색
+        Button findMyLocation = findViewById(R.id.btn_findMyLocation);
         findMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +75,33 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        btn_myPage = findViewById(R.id.btn_myPage);
+        List<Button> foodButtons = Arrays.asList(
+                findViewById(R.id.cutlet),
+                findViewById(R.id.pizza),
+                findViewById(R.id.meat),
+                findViewById(R.id.western),
+                findViewById(R.id.china),
+                findViewById(R.id.chicken),
+                findViewById(R.id.korea),
+                findViewById(R.id.hamburger),
+                findViewById(R.id.ricecake),
+                findViewById(R.id.cafe)
+        );
+
+        for (Button button : foodButtons) {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String buttonText = ((Button) v).getText().toString();
+                    goSearchButton(buttonText);
+                }
+            });
+        }
+
+
+
+        // 마이 페이지
+        ImageButton btn_myPage = findViewById(R.id.btn_myPage);
         btn_myPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +130,12 @@ public class Home extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void goSearchButton(String buttonText){
+        Intent intent = new Intent(Home.this, SearchButton.class);
+        intent.putExtra("buttonText", buttonText); // buttonText 값 전달
+        startActivity(intent);
     }
 
     private String getToken() {

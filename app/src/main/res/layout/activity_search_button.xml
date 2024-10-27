@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.SearchText">
+    tools:context=".home.SearchButton">
 
     <!-- 상단 네비게이션 -->
     <ScrollView
@@ -29,7 +29,7 @@
                 android:background="@drawable/rounded_background"
                 android:padding="10dp">
 
-            <!-- 앱 이름 -->
+                <!-- 앱 이름 -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                     android:textColor="@color/black"
                     android:layout_weight="1" />
 
-            <!-- 검색창 -->
+                <!-- 검색창 -->
                 <EditText
                     android:id="@+id/resultTextView"
                     android:layout_width="0dp"

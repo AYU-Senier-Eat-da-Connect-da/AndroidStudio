@@ -1,4 +1,4 @@
-package com.eatda.president;
+package com.eatda.president.Restaurant;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,7 +25,10 @@ import com.auth0.android.jwt.JWT;
 import com.eatda.R;
 import com.eatda.president.Menu.PresidentManageMenuApiService;
 import com.eatda.president.Menu.form.MenuResponse;
-import com.eatda.president.Restaurant.PresidentManageRestaurantApiService;
+import com.eatda.president.Menu.MenuAdd;
+import com.eatda.president.Menu.MenuModify;
+import com.eatda.president.PresidentMyPage;
+import com.eatda.president.PresidentRetrofitClient;
 import com.eatda.president.Restaurant.form.RestaurantResponse;
 
 import java.util.List;
@@ -99,6 +102,7 @@ public class RestaurantsMgmt extends AppCompatActivity {
         });
     }
 
+
     private void getMenu(){
         PresidentManageMenuApiService service = PresidentRetrofitClient.getRetrofitInstance(this).create(PresidentManageMenuApiService.class);
 
@@ -121,6 +125,8 @@ public class RestaurantsMgmt extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void displayRestaurant(List<RestaurantResponse> restaurant){
         for(RestaurantResponse response : restaurant){
@@ -202,6 +208,7 @@ public class RestaurantsMgmt extends AppCompatActivity {
     private void displayMenu(List<MenuResponse> menu){
         for(MenuResponse response : menu){
             View menuView = LayoutInflater.from(this).inflate(R.layout.menu_item_mgmt, menuContainer, false);
+            Log.d("MenuID", "메뉴 ID: " + response.getId());
 
             TextView menuName = menuView.findViewById(R.id.menu_name);
             TextView menuBody = menuView.findViewById(R.id.menu_body);
@@ -212,12 +219,8 @@ public class RestaurantsMgmt extends AppCompatActivity {
 
             menuName.setText(response.getMenuName());
             menuBody.setText(response.getMenuBody());
-            if(response.getMenuStatus()){
-                menuStatus.setText("주문 가능");
-            }else{
-                menuStatus.setText("품절");
-            }
-            menuPrice.setText(String.valueOf(response.getPrice()));
+            menuStatus.setText(response.getMenuStatus() ? "주문 가능" : "품절");
+            menuPrice.setText(String.format("%,d 원", response.getPrice()));
 
             Long menuId = response.getId();
 

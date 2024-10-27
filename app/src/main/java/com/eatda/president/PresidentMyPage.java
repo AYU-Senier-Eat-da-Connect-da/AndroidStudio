@@ -12,6 +12,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.eatda.R;
+import com.eatda.president.Menu.MenuMgmt;
+import com.eatda.president.Restaurant.RestaurantsMgmt;
 
 public class PresidentMyPage extends AppCompatActivity {
 
@@ -67,16 +69,19 @@ public class PresidentMyPage extends AppCompatActivity {
             }
         });
 
-        /*
-        가게 등록
-         */
+/*
+
         btn_president_add = findViewById(R.id.btn_restaurants_add);
         btn_president_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PresidentMyPage.this, RestaurantAdd.class);
+                Intent intent = new Intent(PresidentMyPage.this, Test.class);
                 startActivity(intent);
             }
         });
+
+ */
+
+
     }
 }
