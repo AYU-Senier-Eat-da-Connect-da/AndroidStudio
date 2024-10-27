@@ -1,4 +1,4 @@
-package com.eatda.president;
+package com.eatda.president.Restaurant;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,11 +22,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.eatda.R;
-import com.eatda.president.Restaurant.PresidentManageRestaurantApiService;
+import com.eatda.president.PresidentRetrofitClient;
 import com.eatda.president.Restaurant.form.RestaurantRequest;
-
-import java.util.Arrays;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

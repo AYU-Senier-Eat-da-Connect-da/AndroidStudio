@@ -107,9 +107,10 @@
                 android:paddingBottom="10dp">
 
                 <android.widget.Button
+                    android:id="@+id/cutlet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="돈까스, 회"
+                    android:text="돈까스,회"
                     android:drawableTop="@drawable/resize_sushi"
                     android:background="@drawable/button_background"
                     android:gravity="center"
@@ -117,6 +118,7 @@
                     android:padding="8dp" />
 
                 <android.widget.Button
+                    android:id="@+id/pizza"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="피자"
@@ -127,6 +129,7 @@
                     android:padding="8dp" />
 
                 <android.widget.Button
+                    android:id="@+id/meat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="족발, 보쌈"
@@ -137,6 +140,7 @@
                     android:padding="8dp" />
 
                 <android.widget.Button
+                    android:id="@+id/western"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="양식"
@@ -147,6 +151,7 @@
                     android:padding="8dp" />
 
                 <android.widget.Button
+                    android:id="@+id/china"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="중식"
@@ -157,6 +162,7 @@
                     android:padding="8dp" />
 
                 <android.widget.Button
+                    android:id="@+id/chicken"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="치킨"
@@ -167,6 +173,7 @@
                     android:padding="8dp" />
 
                 <android.widget.Button
+                    android:id="@+id/korea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="한식, 국"
@@ -177,6 +184,7 @@
                     android:padding="8dp" />
 
                 <android.widget.Button
+                    android:id="@+id/hamburger"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="햄버거"
@@ -187,6 +195,7 @@
                     android:padding="8dp" />
 
                 <android.widget.Button
+                    android:id="@+id/ricecake"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="떡볶이"
@@ -197,6 +206,7 @@
                     android:padding="8dp" />
 
                 <android.widget.Button
+                    android:id="@+id/cafe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="카페, 디저트"
@@ -230,6 +240,7 @@
             android:layout_weight="1" />
 
         <ImageButton
+            android:id="@+id/btn_home"
             android:layout_width="3dp"
             android:layout_height="44dp"
             android:layout_weight="1"
@@ -244,8 +255,6 @@
             android:src="@drawable/resize_myinformation"
             android:background="@null"
             android:layout_weight="1" />
-
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

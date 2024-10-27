@@ -2,6 +2,7 @@ package com.eatda.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -24,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchText extends AppCompatActivity {
+public class SearchButton extends AppCompatActivity {
 
     private LinearLayout searchContainer;
 
@@ -32,7 +33,7 @@ public class SearchText extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_search_text);
+        setContentView(R.layout.activity_search_button);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -40,24 +41,28 @@ public class SearchText extends AppCompatActivity {
         });
 
         searchContainer = findViewById(R.id.search_container);
-        TextView resultTextview = findViewById(R.id.resultTextView);
+        Intent intent = getIntent();
+        String buttonText = intent.getStringExtra("buttonText");
 
-        String searchText = getIntent().getStringExtra("searchText");
-        resultTextview.setText(searchText);
+        // 받은 buttonText 값을 사용하여 원하는 작업 수행
+        if (buttonText != null) {
+            TextView textView = findViewById(R.id.resultTextView);
+            textView.setText(buttonText);
+        }
 
-        getSearchResult(searchText);
+        getSearchResult(buttonText);
     }
 
     private void getSearchResult(String searchText) {
         HomeApiService service = HomeRetrofitClient.getRetrofitInstance(this).create(HomeApiService.class);
 
-        Call<List<RestaurantResponse>> call = service.searchByText(searchText);
+        Call<List<RestaurantResponse>> call = service.getRestaurantByCategory(searchText);
         call.enqueue(new Callback<List<RestaurantResponse>>() {
             @Override
             public void onResponse(Call<List<RestaurantResponse>> call, Response<List<RestaurantResponse>> response) {
                 if(response.isSuccessful() && response.body() != null){
                     if(response.body().isEmpty()){
-                        Toast.makeText(SearchText.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SearchButton.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
                     }else{
                         List<RestaurantResponse> restaurant = response.body();
                         displayRestaurant(restaurant);
@@ -67,7 +72,7 @@ public class SearchText extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<RestaurantResponse>> call, Throwable t) {
-                Toast.makeText(SearchText.this, "네트워크 에러.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchButton.this, "네트워크 에러.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -86,7 +91,7 @@ public class SearchText extends AppCompatActivity {
             restaurantNumber.setText(response.getRestaurantNumber());
 
             restaurantView.setOnClickListener(v ->{
-                Intent intent = new Intent(SearchText.this, RestaurantDetail.class);
+                Intent intent = new Intent(SearchButton.this, RestaurantDetail.class);
                 intent.putExtra("restaurantId",response.getId());
                 startActivity(intent);
             });

@@ -19,13 +19,46 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".president.RestaurantModify"
+            android:name=".home.SearchButton"
             android:exported="false" />
         <activity
-            android:name=".president.MenuModify"
+            android:name=".ReviewContext"
             android:exported="false" />
         <activity
-            android:name=".president.MenuAdd"
+            android:name=".president.Menu.MenuContext"
+            android:exported="false" />
+        <activity
+            android:name=".president.Restaurant.RestaurantContext"
+            android:exported="false" />
+        <activity
+            android:name=".Test.Frag3"
+            android:exported="false" />
+        <activity
+            android:name=".Test.Frag2"
+            android:exported="false" />
+        <activity
+            android:name=".Test.Frag1"
+            android:exported="false" />
+        <activity
+            android:name=".Test.Test"
+            android:exported="false" />
+        <activity
+            android:name=".president.Restaurant.MenuFragment"
+            android:exported="false" />
+        <activity
+            android:name=".president.Restaurant.tapTEst"
+            android:exported="false" />
+        <activity
+            android:name=".president.Restaurant.RestaurantDetail"
+            android:exported="false" />
+        <activity
+            android:name=".president.Restaurant.RestaurantModify"
+            android:exported="false" />
+        <activity
+            android:name=".president.Menu.MenuModify"
+            android:exported="false" />
+        <activity
+            android:name=".president.Menu.MenuAdd"
             android:exported="false" />
         <activity
             android:name=".sponsor.SponsorHelp"
@@ -43,13 +76,13 @@
             android:name=".sponsor.SponsorMyPage"
             android:exported="false" />
         <activity
-            android:name=".president.RestaurantAdd"
+            android:name=".president.Restaurant.RestaurantAdd"
             android:exported="false" />
         <activity
-            android:name=".president.RestaurantsMgmt"
+            android:name=".president.Restaurant.RestaurantsMgmt"
             android:exported="false" />
         <activity
-            android:name=".president.MenuMgmt"
+            android:name=".president.Menu.MenuMgmt"
             android:exported="false" />
         <activity
             android:name=".president.PresidentHelp"

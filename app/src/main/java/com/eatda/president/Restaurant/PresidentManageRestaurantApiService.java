@@ -1,5 +1,6 @@
 package com.eatda.president.Restaurant;
 
+import com.eatda.president.Restaurant.form.RestaurantDetailResponse;
 import com.eatda.president.Restaurant.form.RestaurantRequest;
 import com.eatda.president.Restaurant.form.RestaurantResponse;
 
@@ -14,6 +15,10 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface PresidentManageRestaurantApiService {
+
+    @GET("/api/restaurant/{restaurantId}")
+    Call<RestaurantDetailResponse> getRestaurantDetail(@Path("restaurantId") Long restaurantId);
+
     @GET("/api/president/findMyRestaurant/{presidentId}")
     Call<List<RestaurantResponse>> getRestaurantByPresidentId(@Path("presidentId") Long presidentId);
 

@@ -10,7 +10,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".president.RestaurantAdd">
+        tools:context=".president.Restaurant.RestaurantAdd">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
