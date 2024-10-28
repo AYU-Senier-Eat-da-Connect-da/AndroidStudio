@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.SearchText">
+    tools:context=".ui.home.SearchText">
 
     <!-- 상단 네비게이션 -->
     <ScrollView

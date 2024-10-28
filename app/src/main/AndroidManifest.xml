@@ -19,13 +19,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".home.SearchButton"
+            android:name=".ui.home.SearchButton"
             android:exported="false" />
         <activity
             android:name=".ReviewContext"
             android:exported="false" />
         <activity
-            android:name=".president.Menu.MenuContext"
+            android:name=".ui.menu.MenuContext"
             android:exported="false" />
         <activity
             android:name=".president.Restaurant.RestaurantContext"
@@ -49,91 +49,91 @@
             android:name=".president.Restaurant.tapTEst"
             android:exported="false" />
         <activity
-            android:name=".president.Restaurant.RestaurantDetail"
+            android:name=".ui.restaurant.RestaurantDetail"
             android:exported="false" />
         <activity
-            android:name=".president.Restaurant.RestaurantModify"
+            android:name=".ui.restaurant.RestaurantModify"
             android:exported="false" />
         <activity
-            android:name=".president.Menu.MenuModify"
+            android:name=".ui.menu.MenuModify"
             android:exported="false" />
         <activity
-            android:name=".president.Menu.MenuAdd"
+            android:name=".ui.menu.MenuAdd"
             android:exported="false" />
         <activity
-            android:name=".sponsor.SponsorHelp"
+            android:name=".ui.sponsor.SponsorHelp"
             android:exported="false" />
         <activity
-            android:name=".sponsor.Support"
+            android:name=".ui.sponsor.Support"
             android:exported="false" />
         <activity
-            android:name=".sponsor.ChildMgmt"
+            android:name=".ui.childManagement.ChildMgmt"
             android:exported="false" />
         <activity
-            android:name=".sponsor.ChildList"
+            android:name=".ui.childManagement.ChildList"
             android:exported="false" />
         <activity
-            android:name=".sponsor.SponsorMyPage"
+            android:name=".ui.sponsor.SponsorMyPage"
             android:exported="false" />
         <activity
-            android:name=".president.Restaurant.RestaurantAdd"
+            android:name=".ui.restaurant.RestaurantAdd"
             android:exported="false" />
         <activity
-            android:name=".president.Restaurant.RestaurantsMgmt"
+            android:name=".ui.restaurant.RestaurantsMgmt"
             android:exported="false" />
         <activity
-            android:name=".president.Menu.MenuMgmt"
+            android:name=".ui.menu.MenuMgmt"
             android:exported="false" />
         <activity
-            android:name=".president.PresidentHelp"
+            android:name=".ui.president.PresidentHelp"
             android:exported="false" />
         <activity
-            android:name=".president.PresidentMyPage"
+            android:name=".ui.president.PresidentMyPage"
             android:exported="false" />
         <activity
-            android:name=".PermissionBasedMyPage"
+            android:name=".ui.PermissionBasedMyPage"
             android:exported="false" />
         <activity
-            android:name=".child.ChildMyReviewList"
+            android:name=".ui.review.ChildMyReviewList"
             android:exported="false" />
         <activity
-            android:name=".child.ChildMyPage"
+            android:name=".ui.child.ChildMyPage"
             android:exported="false" />
         <activity
-            android:name=".child.ChildHelp"
+            android:name=".ui.child.ChildHelp"
             android:exported="false" />
         <activity
-            android:name=".child.ChildBuyList"
+            android:name=".ui.child.ChildBuyList"
             android:exported="false" />
         <activity
-            android:name=".home.MyLocationMap"
+            android:name=".ui.home.MyLocationMap"
             android:exported="false" />
         <activity
-            android:name=".home.RestaurantInfo"
+            android:name=".ui.home.RestaurantInfo"
             android:exported="false" />
         <activity
-            android:name=".child.ChildCardJoin"
+            android:name=".ui.child.ChildCardJoin"
             android:exported="false" />
         <activity
-            android:name=".home.SearchText"
+            android:name=".ui.home.SearchText"
             android:exported="false" />
         <activity
-            android:name=".sponsor.SponsorJoin"
+            android:name=".ui.sponsor.SponsorJoin"
             android:exported="false" />
         <activity
-            android:name=".president.PresidentJoin"
+            android:name=".ui.president.PresidentJoin"
             android:exported="false" />
         <activity
-            android:name=".child.ChildJoin"
+            android:name=".ui.child.ChildJoin"
             android:exported="false" />
         <activity
-            android:name=".Join"
+            android:name=".ui.Join"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".ui.Login"
             android:exported="false" />
         <activity
-            android:name=".home.Home"
+            android:name=".ui.home.Home"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
