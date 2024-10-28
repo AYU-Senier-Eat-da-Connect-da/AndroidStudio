@@ -1,4 +1,4 @@
-package com.eatda.home;
+package com.eatda.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +15,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.eatda.R;
-import com.eatda.data.api.HomeApiService;
-import com.eatda.president.Restaurant.RestaurantDetail;
-import com.eatda.president.Restaurant.form.RestaurantResponse;
+import com.eatda.data.api.home.HomeApiService;
+import com.eatda.data.api.home.HomeRetrofitClient;
+import com.eatda.ui.restaurant.RestaurantDetail;
+import com.eatda.data.form.restaurant.RestaurantResponse;
 
 import java.util.List;
 

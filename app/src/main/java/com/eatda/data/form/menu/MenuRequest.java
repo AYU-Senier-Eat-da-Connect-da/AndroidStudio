@@ -1,4 +1,4 @@
-package com.eatda.president.Menu.form;
+package com.eatda.data.form.menu;
 
 public class MenuRequest {
     private Long id;

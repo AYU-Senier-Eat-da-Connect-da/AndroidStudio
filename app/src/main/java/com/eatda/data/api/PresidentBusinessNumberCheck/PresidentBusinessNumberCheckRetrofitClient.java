@@ -1,4 +1,4 @@
-package com.eatda.president.PresidentBusinessNumberCheck;
+package com.eatda.data.api.presidentBusinessNumberCheck;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

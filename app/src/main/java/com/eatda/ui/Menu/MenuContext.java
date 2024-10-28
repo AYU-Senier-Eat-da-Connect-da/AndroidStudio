@@ -1,4 +1,4 @@
-package com.eatda.president.Menu;
+package com.eatda.ui.menu;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.eatda.R;
-import com.eatda.president.Menu.form.MenuResponse;
+import com.eatda.data.form.menu.MenuResponse;
 
 import java.util.List;
 

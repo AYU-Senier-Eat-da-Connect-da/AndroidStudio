@@ -1,4 +1,4 @@
-package com.eatda.president.Menu;
+package com.eatda.ui.menu;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,8 +20,9 @@ import androidx.core.view.WindowInsetsCompat;
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.eatda.R;
-import com.eatda.president.Menu.form.MenuResponse;
-import com.eatda.president.PresidentRetrofitClient;
+import com.eatda.data.api.menu.PresidentManageMenuApiService;
+import com.eatda.data.form.menu.MenuResponse;
+import com.eatda.data.api.president.PresidentRetrofitClient;
 
 import java.util.List;
 

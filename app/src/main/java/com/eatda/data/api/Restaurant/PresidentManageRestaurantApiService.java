@@ -1,8 +1,8 @@
-package com.eatda.president.Restaurant;
+package com.eatda.data.api.restaurant;
 
-import com.eatda.president.Restaurant.form.RestaurantDetailResponse;
-import com.eatda.president.Restaurant.form.RestaurantRequest;
-import com.eatda.president.Restaurant.form.RestaurantResponse;
+import com.eatda.data.form.restaurant.RestaurantDetailResponse;
+import com.eatda.data.form.restaurant.RestaurantRequest;
+import com.eatda.data.form.restaurant.RestaurantResponse;
 
 import java.util.List;
 

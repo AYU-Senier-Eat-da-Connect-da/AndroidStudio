@@ -11,6 +11,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.eatda.ui.Join;
+import com.eatda.ui.Login;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

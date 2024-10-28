@@ -1,9 +1,9 @@
-package com.eatda.login;
+package com.eatda.data.api.login;
 
-import com.eatda.login.form.ChildJoinRequest;
-import com.eatda.login.form.LoginRequest;
-import com.eatda.login.form.PresidentJoinRequest;
-import com.eatda.login.form.SponsorJoinRequest;
+import com.eatda.data.form.login.ChildJoinRequest;
+import com.eatda.data.form.login.LoginRequest;
+import com.eatda.data.form.login.PresidentJoinRequest;
+import com.eatda.data.form.login.SponsorJoinRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

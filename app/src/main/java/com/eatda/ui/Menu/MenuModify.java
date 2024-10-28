@@ -1,4 +1,4 @@
-package com.eatda.president.Menu;
+package com.eatda.ui.menu;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,9 +16,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.eatda.R;
-import com.eatda.president.Menu.form.MenuRequest;
-import com.eatda.president.PresidentRetrofitClient;
-import com.eatda.president.Restaurant.RestaurantsMgmt;
+import com.eatda.data.api.menu.PresidentManageMenuApiService;
+import com.eatda.data.form.menu.MenuRequest;
+import com.eatda.data.api.president.PresidentRetrofitClient;
+import com.eatda.ui.restaurant.RestaurantsMgmt;
 
 import retrofit2.Call;
 import retrofit2.Callback;

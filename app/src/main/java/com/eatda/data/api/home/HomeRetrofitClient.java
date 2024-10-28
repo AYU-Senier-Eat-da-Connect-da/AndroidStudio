@@ -1,4 +1,4 @@
-package com.eatda.home;
+package com.eatda.data.api.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;

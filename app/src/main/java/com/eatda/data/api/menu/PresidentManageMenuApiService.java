@@ -1,7 +1,7 @@
-package com.eatda.president.Menu;
+package com.eatda.data.api.menu;
 
-import com.eatda.president.Menu.form.MenuRequest;
-import com.eatda.president.Menu.form.MenuResponse;
+import com.eatda.data.form.menu.MenuRequest;
+import com.eatda.data.form.menu.MenuResponse;
 
 import java.util.List;
 

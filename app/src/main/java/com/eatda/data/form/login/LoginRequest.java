@@ -1,4 +1,4 @@
-package com.eatda.login.form;
+package com.eatda.data.form.login;
 
 public class LoginRequest {
     private String email;

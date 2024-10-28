@@ -1,6 +1,5 @@
-package com.eatda.president.PresidentBusinessNumberCheck;
+package com.eatda.data.form.presidentBusinessNumberCheck;
 
-import java.util.Collections;
 import java.util.List;
 
 public class PresidentBusinessRequest {

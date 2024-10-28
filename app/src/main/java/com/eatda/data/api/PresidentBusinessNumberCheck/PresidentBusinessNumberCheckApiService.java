@@ -1,4 +1,7 @@
-package com.eatda.president.PresidentBusinessNumberCheck;
+package com.eatda.data.api.presidentBusinessNumberCheck;
+
+import com.eatda.data.form.presidentBusinessNumberCheck.PresidentBusinessRequest;
+import com.eatda.data.form.presidentBusinessNumberCheck.PresidentBusinessResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

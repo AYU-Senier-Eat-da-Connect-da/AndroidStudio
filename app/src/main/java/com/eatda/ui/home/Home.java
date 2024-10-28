@@ -1,4 +1,4 @@
-package com.eatda.home;
+package com.eatda.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,11 +21,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
-import com.eatda.PermissionBasedMyPage;
 import com.eatda.R;
-import com.eatda.child.ChildMyPage;
-import com.eatda.president.PresidentMyPage;
-import com.eatda.sponsor.SponsorMyPage;
+import com.eatda.ui.child.ChildMyPage;
+import com.eatda.ui.president.PresidentMyPage;
+import com.eatda.ui.sponsor.SponsorMyPage;
 
 import java.util.Arrays;
 import java.util.List;

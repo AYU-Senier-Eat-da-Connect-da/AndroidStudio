@@ -1,4 +1,4 @@
-package com.eatda.home;
+package com.eatda.ui.home;
 
 import android.os.Bundle;
 

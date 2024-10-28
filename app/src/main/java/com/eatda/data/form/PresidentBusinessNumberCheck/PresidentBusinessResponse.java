@@ -1,4 +1,4 @@
-package com.eatda.president.PresidentBusinessNumberCheck;
+package com.eatda.data.form.presidentBusinessNumberCheck;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
