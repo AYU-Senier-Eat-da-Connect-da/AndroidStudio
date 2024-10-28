@@ -1,4 +1,4 @@
-package com.eatda.child;
+package com.eatda.UI.child;
 
 import android.os.Bundle;
 

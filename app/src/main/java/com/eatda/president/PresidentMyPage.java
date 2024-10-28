@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.eatda.R;
 import com.eatda.president.Menu.MenuMgmt;
 import com.eatda.president.Restaurant.RestaurantsMgmt;
+import com.eatda.review.RestaurantReviewList;
 
 public class PresidentMyPage extends AppCompatActivity {
 
@@ -21,6 +22,9 @@ public class PresidentMyPage extends AppCompatActivity {
     private Button btn_menu_mgmt;
     private Button btn_president_help;
     private Button btn_president_add;
+
+    //Todo: 임시위치 (가게 정보에서 Reviews에 위치해야함)
+    private Button btn_restaurant_review_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,18 @@ public class PresidentMyPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PresidentMyPage.this, PresidentHelp.class);
+                startActivity(intent);
+            }
+        });
+
+        /*
+         내가게 리뷰 리스트 조회
+         */
+        btn_restaurant_review_list = findViewById(R.id.btn_restaurant_review_list);
+        btn_restaurant_review_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PresidentMyPage.this, RestaurantReviewList.class);
                 startActivity(intent);
             }
         });

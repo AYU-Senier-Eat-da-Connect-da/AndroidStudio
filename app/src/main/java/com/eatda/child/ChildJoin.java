@@ -1,4 +1,4 @@
-package com.eatda.child;
+package com.eatda.UI.child;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +20,6 @@ import com.eatda.R;
 import com.eatda.login.LoginApiService;
 import com.eatda.login.LoginRetrofitClient;
 import com.eatda.login.form.ChildJoinRequest;
-import com.eatda.president.PresidentJoin;
 
 import retrofit2.Call;
 import retrofit2.Callback;

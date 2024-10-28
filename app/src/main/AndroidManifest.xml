@@ -94,7 +94,7 @@
             android:name=".PermissionBasedMyPage"
             android:exported="false" />
         <activity
-            android:name=".child.ChildMyReviewList"
+            android:name=".review.ChildMyReviewList"
             android:exported="false" />
         <activity
             android:name=".child.ChildMyPage"

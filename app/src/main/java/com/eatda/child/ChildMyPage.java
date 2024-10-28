@@ -1,4 +1,4 @@
-package com.eatda.child;
+package com.eatda.UI.child;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +13,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.eatda.R;
+import com.eatda.review.AddReview;
+import com.eatda.review.ChildMyReviewList;
 
 public class ChildMyPage extends AppCompatActivity {
 
@@ -20,6 +22,9 @@ public class ChildMyPage extends AppCompatActivity {
     private Button btn_child_buyList;
     private Button btn_card_balance;
     private Button btn_child_help;
+
+    //Todo: 임시 (삭제필요). 주문했던 정보에서 리뷰를 작성 할 수 있게 해야함
+    private Button btn_addReview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,19 @@ public class ChildMyPage extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        /*
+            리뷰 작성 Todo: 임시. 삭제필요
+        */
+
+        btn_addReview = findViewById(R.id.btn_addReview);
+        btn_addReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ChildMyPage.this, AddReview.class);
+                startActivity(intent);
+            }
         });
 
         /*

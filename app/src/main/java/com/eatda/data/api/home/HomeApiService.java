@@ -1,4 +1,4 @@
-package com.eatda.home;
+package com.eatda.data.api;
 
 import com.eatda.president.Restaurant.form.RestaurantResponse;
 
