@@ -9,57 +9,65 @@
 
     <ImageView
         android:id="@+id/JoinlogoImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="144dp"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="52dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.464"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/resize_logo" />
 
-    <Button
-        android:id="@+id/btn_president"
-        android:layout_width="130dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="288dp"
+    <android.widget.Button
+        android:id="@+id/president"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:background="@drawable/button_logobackground"
+        android:drawableTop="@drawable/resize_president_logo"
+        android:gravity="center"
+        android:padding="8dp"
         android:text="사장님"
+        android:textSize="9pt"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.501" />
 
-    <Button
-        android:id="@+id/btn_sponsor"
-        android:layout_width="130dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="468dp"
-        android:text="후원자"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btn_child"
-        android:layout_width="130dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="384dp"
+    <android.widget.Button
+        android:id="@+id/child"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:background="@drawable/button_logobackground"
+        android:drawableTop="@drawable/resize_child_logo"
+        android:gravity="center"
+        android:padding="8dp"
         android:text="아동"
+        android:textSize="9pt"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_Previous"
-        android:layout_width="130dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="552dp"
-        android:text="이전"
+    <android.widget.Button
+        android:id="@+id/sponsor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:background="@drawable/button_logobackground"
+        android:drawableTop="@drawable/resize_sponsor_logo"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="후원자"
+        android:textSize="9pt"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.945"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.501" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
