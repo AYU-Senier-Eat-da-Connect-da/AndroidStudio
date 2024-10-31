@@ -28,27 +28,6 @@
             android:name=".ui.menu.MenuContext"
             android:exported="false" />
         <activity
-            android:name=".president.Restaurant.RestaurantContext"
-            android:exported="false" />
-        <activity
-            android:name=".Test.Frag3"
-            android:exported="false" />
-        <activity
-            android:name=".Test.Frag2"
-            android:exported="false" />
-        <activity
-            android:name=".Test.Frag1"
-            android:exported="false" />
-        <activity
-            android:name=".Test.Test"
-            android:exported="false" />
-        <activity
-            android:name=".president.Restaurant.MenuFragment"
-            android:exported="false" />
-        <activity
-            android:name=".president.Restaurant.tapTEst"
-            android:exported="false" />
-        <activity
             android:name=".ui.restaurant.RestaurantDetail"
             android:exported="false" />
         <activity
