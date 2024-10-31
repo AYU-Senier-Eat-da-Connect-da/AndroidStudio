@@ -43,6 +43,7 @@ dependencies {
     implementation libs.converter.gson
     implementation libs.gson
     implementation libs.logging.interceptor.v3110
+    implementation libs.android.jwtdecode
     implementation libs.android //최신 버전 추천
     implementation libs.android.bio //생체인증 결제 사용시 추가
     implementation libs.converter.scalars
