@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,16 +24,19 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
+import com.bumptech.glide.Glide;
 import com.eatda.R;
 import com.eatda.data.api.restaurant.PresidentManageRestaurantApiService;
 import com.eatda.data.api.menu.PresidentManageMenuApiService;
 import com.eatda.data.form.menu.MenuResponse;
+import com.eatda.data.form.restaurant.RestaurantPhotoResponse;
 import com.eatda.ui.menu.MenuAdd;
 import com.eatda.ui.menu.MenuModify;
 import com.eatda.ui.president.PresidentMyPage;
 import com.eatda.data.api.president.PresidentRetrofitClient;
 import com.eatda.data.form.restaurant.RestaurantResponse;
 
+import java.io.File;
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,6 +48,7 @@ public class RestaurantsMgmt extends AppCompatActivity {
     private LinearLayout restaurantContainer;
     private LinearLayout menuContainer;
     private Long presidentId;
+    private Long restaurantId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,7 @@ public class RestaurantsMgmt extends AppCompatActivity {
 
         getRestaurant();
         getMenu();
+        getPhoto();
     }
 
 
@@ -91,6 +98,9 @@ public class RestaurantsMgmt extends AppCompatActivity {
                     }else {
                         List<RestaurantResponse> restaurant = response.body();
                         Toast.makeText(RestaurantsMgmt.this, "내 식당을 불러옵니다.", Toast.LENGTH_SHORT).show();
+                        restaurantId = response.body().get(0).getId();
+                        Toast.makeText(RestaurantsMgmt.this,"식당 :" + restaurantId,Toast.LENGTH_SHORT).show();
+
                         displayRestaurant(restaurant);
                     }
                 }
@@ -99,6 +109,32 @@ public class RestaurantsMgmt extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<RestaurantResponse>> call, Throwable t) {
                 Toast.makeText(RestaurantsMgmt.this,"네트워크 오류",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getPhoto(){
+        PresidentManageRestaurantApiService service = PresidentRetrofitClient.getRetrofitInstance(this).create(PresidentManageRestaurantApiService.class);
+
+        Call<RestaurantPhotoResponse> call = service.getRestaurantPhoto(restaurantId);
+        call.enqueue(new Callback<RestaurantPhotoResponse>() {
+            @Override
+            public void onResponse(Call<RestaurantPhotoResponse> call, Response<RestaurantPhotoResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    RestaurantPhotoResponse photoResponse = response.body();
+                    String filePath = photoResponse.getFilePath();
+
+                    Uri fileUri = Uri.fromFile(new File(filePath));
+                    ImageView imageView = findViewById(R.id.imageView3);
+                    Glide.with(getApplicationContext())
+                            .load(fileUri)  // filePath를 Glide로 로드
+                            .into(imageView);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RestaurantPhotoResponse> call, Throwable t) {
+                Toast.makeText(RestaurantsMgmt.this,"사진 네트워크 오류",Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -60,7 +60,7 @@ public class ChildList extends AppCompatActivity {
     private void fetchChildrenList() {
         SponsorChildManagementApiService service = SponsorChildManagementRetrofitClient.getRetrofitInstance(this).create(SponsorChildManagementApiService.class);
 
-        Call<List<ChildResponse>> call = service.getChildren(sponsorID);
+        Call<List<ChildResponse>> call = service.getAllChildren();
         call.enqueue(new Callback<List<ChildResponse>>() {
             @Override
             public void onResponse(Call<List<ChildResponse>> call, Response<List<ChildResponse>> response) {
@@ -92,8 +92,8 @@ public class ChildList extends AppCompatActivity {
             TextView childAddress = childView.findViewById(R.id.child_address);
             Button registerButton = childView.findViewById(R.id.register_button);
 
-            childName.setText(child.getName());
-            childEmail.setText(child.getEmail());  // Email 설정
+            childName.setText(child.getChildName());
+            childEmail.setText(child.getChildEmail());  // Email 설정
             childPhone.setText(child.getChildNumber());  // Phone 설정
             childAddress.setText(child.getChildAddress());  // Address 설정
 
@@ -108,8 +108,8 @@ public class ChildList extends AppCompatActivity {
                     public void onResponse(Call<SponsorDTO> call, Response<SponsorDTO> response) {
                         if (response.isSuccessful()) {
                             Intent intent = new Intent(ChildList.this, ChildMgmt.class);
-                            Toast.makeText(ChildList.this, child.getName() + "가 성공적으로 등록되었습니다.", Toast.LENGTH_SHORT).show();
-                            Log.d("ChildList", "등록된 아동: " + child.getName());
+                            Toast.makeText(ChildList.this, child.getChildName() + "가 성공적으로 등록되었습니다.", Toast.LENGTH_SHORT).show();
+                            Log.d("ChildList", "등록된 아동: " + child.getChildName());
                             startActivity(intent);
                         } else {
                             Toast.makeText(ChildList.this, "등록 실패: 서버 오류", Toast.LENGTH_SHORT).show();

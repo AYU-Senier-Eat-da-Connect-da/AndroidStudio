@@ -6,24 +6,29 @@ public class ChildResponse {
     private String childEmail;
     private String childNumber;
     private String childAddress;
+    private int childAmount;
 
-    public Long getId(){
-        return this.id;
+    public Long getId() {
+        return id;
     }
 
-    public String getName() {
-        return this.childName;
+    public String getChildName() {
+        return childName;
     }
 
-    public String getEmail(){
-        return this.childEmail;
+    public String getChildEmail() {
+        return childEmail;
     }
 
-    public String getChildNumber(){
-        return this.childNumber;
+    public String getChildNumber() {
+        return childNumber;
     }
 
-    public String getChildAddress(){
-        return this.childAddress;
+    public String getChildAddress() {
+        return childAddress;
+    }
+
+    public int getChildAmount() {
+        return childAmount;
     }
 }

@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+    <!-- 갤러리 권한 추가 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -26,27 +29,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.menu.MenuContext"
-            android:exported="false" />
-        <activity
-            android:name=".president.Restaurant.RestaurantContext"
-            android:exported="false" />
-        <activity
-            android:name=".Test.Frag3"
-            android:exported="false" />
-        <activity
-            android:name=".Test.Frag2"
-            android:exported="false" />
-        <activity
-            android:name=".Test.Frag1"
-            android:exported="false" />
-        <activity
-            android:name=".Test.Test"
-            android:exported="false" />
-        <activity
-            android:name=".president.Restaurant.MenuFragment"
-            android:exported="false" />
-        <activity
-            android:name=".president.Restaurant.tapTEst"
             android:exported="false" />
         <activity
             android:name=".ui.restaurant.RestaurantDetail"

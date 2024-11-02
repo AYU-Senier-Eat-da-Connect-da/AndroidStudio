@@ -3,13 +3,16 @@ package com.eatda.ui.restaurant;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
@@ -26,14 +29,23 @@ import com.eatda.data.api.restaurant.PresidentManageRestaurantApiService;
 import com.eatda.data.api.president.PresidentRetrofitClient;
 import com.eatda.data.form.restaurant.RestaurantRequest;
 
+import java.io.File;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RestaurantAdd extends AppCompatActivity {
 
+    private static final int GALLERY_REQUEST_CODE = -1;
     private Long presidentId;
     private String restaurantCategory;
+    private ImageView photoPreview;
+    private Uri selectedImageUri;
+    private Long restaurantId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +58,8 @@ public class RestaurantAdd extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        photoPreview = findViewById(R.id.photo_preview);
 
         Spinner categorySpinner = findViewById(R.id.category_spinner);
 
@@ -101,6 +115,7 @@ public class RestaurantAdd extends AppCompatActivity {
 
     }
 
+
     private void addRestaurant(String restaurantName, String restaurantAddress, String restaurantNumber, String restaurantBody, String restaurantCategory) {
         PresidentManageRestaurantApiService service = PresidentRetrofitClient.getRetrofitInstance(this).create(PresidentManageRestaurantApiService.class);
         RestaurantRequest request = new RestaurantRequest(restaurantName, restaurantAddress, restaurantNumber, restaurantBody, restaurantCategory ,presidentId);
@@ -111,7 +126,9 @@ public class RestaurantAdd extends AppCompatActivity {
             public void onResponse(Call<RestaurantRequest> call, Response<RestaurantRequest> response) {
                 Log.d("Retrofit Response", "Code: " + response.code() + ", Body: " + response.body());
                 if(response.isSuccessful() && response.body() != null){
+                    restaurantId = response.body().getId();
                     addShowAlertDialog("등록 완료", "식당이 등록 완료되었습니다.",true);
+                    addRestaurantPhoto();
                 }else{
                     addShowAlertDialog("등록 실패", "등록에 실패하였습니다.",false);
                 }
@@ -124,6 +141,39 @@ public class RestaurantAdd extends AppCompatActivity {
             }
         });
     }
+
+    private void addRestaurantPhoto() {
+        if (selectedImageUri == null) {
+            Log.e("Upload", "No image selected");
+            return;
+        }
+
+        File file = new File(selectedImageUri.getPath());
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
+
+        // API 서비스 설정
+        PresidentManageRestaurantApiService service = PresidentRetrofitClient.getRetrofitInstance(this).create(PresidentManageRestaurantApiService.class);
+        Call<String> call = service.uploadOrUpdateRestaurantPhoto(restaurantId, body);
+
+        // API 호출 및 응답 처리
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    Log.d("Upload", "사진 업로드 성공: " + response.body());
+                } else {
+                    Log.e("Upload", "사진 업로드 실패: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("Upload", "사진 업로드 에러: " + t.getMessage());
+            }
+        });
+    }
+
 
     private Long getSubFromToken() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
@@ -159,5 +209,10 @@ public class RestaurantAdd extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    public void openGallery(View view) {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, GALLERY_REQUEST_CODE);
     }
 }

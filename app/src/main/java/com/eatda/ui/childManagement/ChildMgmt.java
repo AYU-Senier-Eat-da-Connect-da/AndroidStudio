@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -25,8 +27,15 @@ import com.eatda.data.api.childManagement.SponsorChildManagementRetrofitClient;
 import com.eatda.data.form.childManagement.ChildResponse;
 import com.eatda.data.form.sponsor.SponsorDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import kr.co.bootpay.android.*;
+import kr.co.bootpay.android.events.BootpayEventListener;
+import kr.co.bootpay.android.models.BootExtra;
+import kr.co.bootpay.android.models.BootItem;
+import kr.co.bootpay.android.models.BootUser;
+import kr.co.bootpay.android.models.Payload;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,26 +44,28 @@ public class ChildMgmt extends AppCompatActivity {
 
     private LinearLayout childContainer; // 아동 정보를 표시할 레이아웃
     private Long sponsorID;
+    private String sponsorName;
+    private String sponsorAddress;
+    private String sponsorEmail;
+    private String sponsorNumber;
+    private int inputPrice;  // 사용자가 입력한 금액 저장
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_child_mgmt);
-
-        // 시스템 바 인셋 적용
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // 레이아웃 초기화
-        childContainer = findViewById(R.id.childContainer);  // activity_child_mgmt.xml 파일에 정의된 LinearLayout
+        childContainer = findViewById(R.id.childContainer);
 
         sponsorID = getSubFromToken();
         Log.d("sponsorID :", "현재 후원자 아이디는 " + sponsorID);
-        // API 호출
+
         fetchChildrenData(sponsorID);
     }
 
@@ -67,7 +78,7 @@ public class ChildMgmt extends AppCompatActivity {
             public void onResponse(Call<List<ChildResponse>> call, Response<List<ChildResponse>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<ChildResponse> children = response.body();
-                    displayChildren(children); // 아동 정보를 동적으로 레이아웃에 추가
+                    displayChildren(children);
                 } else {
                     Toast.makeText(ChildMgmt.this, "아동 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
                 }
@@ -82,20 +93,20 @@ public class ChildMgmt extends AppCompatActivity {
     }
 
     private void displayChildren(List<ChildResponse> children) {
-        childContainer.removeAllViews(); // 기존 뷰를 모두 제거
+        childContainer.removeAllViews();
 
         for (ChildResponse child : children) {
             View childView = LayoutInflater.from(this).inflate(R.layout.child_mgmt_list, childContainer, false);
 
-            // 동적으로 뷰에 데이터 추가
             TextView childName = childView.findViewById(R.id.child_name);
             TextView childEmail = childView.findViewById(R.id.child_email);
             TextView childPhone = childView.findViewById(R.id.child_phone);
             TextView childAddress = childView.findViewById(R.id.child_address);
             Button deleteButton = childView.findViewById(R.id.delete_button);
+            Button giveButton = childView.findViewById(R.id.give_button);
 
-            childName.setText(child.getName());
-            childEmail.setText(child.getEmail());
+            childName.setText(child.getChildName());
+            childEmail.setText(child.getChildEmail());
             childPhone.setText(child.getChildNumber());
             childAddress.setText(child.getChildAddress());
 
@@ -107,26 +118,23 @@ public class ChildMgmt extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<SponsorDTO> call, Response<SponsorDTO> response) {
                         if (response.isSuccessful()) {
-                            // 삭제 성공 시 해당 childView를 UI에서 제거
                             childContainer.removeView(childView);
                             Toast.makeText(getApplicationContext(), "Child deleted successfully", Toast.LENGTH_SHORT).show();
                         } else {
-                            // 실패 시 처리
                             Toast.makeText(getApplicationContext(), "Failed to delete child", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<SponsorDTO> call, Throwable t) {
-                        // 네트워크 오류 등 실패 처리
                         Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
             });
 
+            giveButton.setOnClickListener(v -> showCustomDialog());
 
-            // 컨테이너에 뷰 추가
             childContainer.addView(childView);
         }
     }
@@ -138,9 +146,153 @@ public class ChildMgmt extends AppCompatActivity {
         if (token != null) {
             JWT jwt = new JWT(token);
             Claim subClaim = jwt.getClaim("sub");
-            return subClaim.asLong();  // sub 값을 Long으로 변환하여 반환
+            return subClaim.asLong();
         }
 
         return null;
+    }
+
+    private void PaymentTest(String sponsorName, String sponsorEmail, String sponsorAddress, String sponsorNumber, int price) {
+        BootUser user = new BootUser()
+                .setUsername(sponsorName)
+                .setEmail(sponsorEmail)
+                .setAddr(sponsorAddress)
+                .setPhone(sponsorNumber);
+
+        BootExtra extra = new BootExtra()
+                .setCardQuota("0,2,3");
+
+        List<BootItem> items = new ArrayList<>();
+        BootItem item1 = new BootItem().setName("후원금").setId("ITEM_CODE_MOUSE").setQty(1).setPrice((double) price);
+        items.add(item1);
+
+        Payload payload = new Payload();
+        payload.setApplicationId("671016a286fd08d2213fc484")
+                .setOrderName("부트페이 결제테스트")
+                .setPg("KCP")
+                .setMethod("카드")
+                .setOrderId("1234")
+                .setPrice((double) price)
+                .setUser(user)
+                .setExtra(extra)
+                .setItems(items);
+
+        Bootpay.init(getSupportFragmentManager())
+                .setPayload(payload)
+                .setEventListener(new BootpayEventListener() {
+                    @Override
+                    public void onCancel(String data) {
+                        Log.d("bootpay", "cancel: " + data);
+                        Toast.makeText(ChildMgmt.this, "취소", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(String data) {
+                        Log.d("bootpay", "error: " + data);
+                        Toast.makeText(ChildMgmt.this, "에러", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onClose() {
+                        Log.d("bootpay", "close ");
+                        Toast.makeText(ChildMgmt.this, "닫기", Toast.LENGTH_SHORT).show();
+                        Bootpay.removePaymentWindow();
+                    }
+
+                    @Override
+                    public void onIssued(String data) {
+                        Log.d("bootpay", "issued: " + data);
+                        Toast.makeText(ChildMgmt.this, "이슈", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public boolean onConfirm(String data) {
+                        Log.d("bootpay", "confirm: " + data);
+                        Toast.makeText(ChildMgmt.this, "확인", Toast.LENGTH_SHORT).show();
+                        sponToChild();
+                        return true;
+                    }
+
+                    @Override
+                    public void onDone(String data) {
+                        Log.d("done", data);
+                        Toast.makeText(ChildMgmt.this, "끝", Toast.LENGTH_SHORT).show();
+                    }
+                }).requestPayment();
+    }
+
+    private void showCustomDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.sponsor_spon_point, null);
+        builder.setView(dialogView);
+
+        EditText inputField = dialogView.findViewById(R.id.inputField);
+        Button btnConfirm = dialogView.findViewById(R.id.btnConfirm);
+        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
+
+        AlertDialog dialog = builder.create();
+
+        btnConfirm.setOnClickListener(v -> {
+            String inputText = inputField.getText().toString();
+            if (!inputText.isEmpty()) {
+                inputPrice = Integer.parseInt(inputText);
+                getMyInfoAndProceedToPayment();
+                dialog.dismiss();
+            } else {
+                Toast.makeText(ChildMgmt.this, "값을 입력해주세요", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private void getMyInfoAndProceedToPayment() {
+        SponsorChildManagementApiService service = SponsorChildManagementRetrofitClient.getRetrofitInstance(this).create(SponsorChildManagementApiService.class);
+        Call<SponsorDTO> call = service.getSponsorInfo(sponsorID);
+
+        call.enqueue(new Callback<SponsorDTO>() {
+            @Override
+            public void onResponse(Call<SponsorDTO> call, Response<SponsorDTO> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    SponsorDTO sponsorDTO = response.body();
+                    sponsorName = sponsorDTO.getSponsorName();
+                    sponsorAddress = sponsorDTO.getSponsorAddress();
+                    sponsorNumber = sponsorDTO.getSponsorNumber();
+                    sponsorEmail = sponsorDTO.getSponsorEmail();
+                    PaymentTest(sponsorName, sponsorEmail, sponsorAddress, sponsorNumber, inputPrice);
+                } else {
+                    Toast.makeText(getApplicationContext(), "정보 조회 불가", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SponsorDTO> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void sponToChild() {
+        SponsorChildManagementApiService service = SponsorChildManagementRetrofitClient.getRetrofitInstance(this).create(SponsorChildManagementApiService.class);
+        Call<String> call = service.updateAmount(sponsorID, inputPrice);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "후원 완료", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "후원 실패", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
