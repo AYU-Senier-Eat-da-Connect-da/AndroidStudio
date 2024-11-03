@@ -22,6 +22,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.eatda.R;
+import com.eatda.kakaomap.MyLocationMap;
 import com.eatda.ui.child.ChildMyPage;
 import com.eatda.ui.president.PresidentMyPage;
 import com.eatda.ui.sponsor.SponsorMyPage;

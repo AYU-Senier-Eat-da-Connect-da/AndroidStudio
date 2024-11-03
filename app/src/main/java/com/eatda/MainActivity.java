@@ -11,8 +11,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.eatda.kakaomap.MyLocationMap;
 import com.eatda.ui.Join;
 import com.eatda.ui.Login;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+
         });
 
         Button btn_loginPage = findViewById(R.id.btn_loginPage);
@@ -46,5 +49,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        //Todo: 임시 위치
+        Button btn_kakaomap = findViewById(R.id.btn_kakaomap);
+        btn_kakaomap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MyLocationMap.class);
+                startActivity(intent);
+            }
+        });
     }
 }

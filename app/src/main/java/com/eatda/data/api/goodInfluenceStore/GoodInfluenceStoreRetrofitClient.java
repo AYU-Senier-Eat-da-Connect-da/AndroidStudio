@@ -1,10 +1,12 @@
 package com.eatda.data.api.goodInfluenceStore;
 
+import com.eatda.Local;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GoodInfluenceStoreRetrofitClient {
-    private static final String BASE_URL = "https://openapi.gg.go.kr/GGGOODINFLSTOREST?";
+    private static final String BASE_URL = "https://openapi.gg.go.kr/";
     private static Retrofit retrofit;
 
     public static Retrofit getRetrofitInstance() {
