@@ -1,4 +1,4 @@
-package com.eatda.data.api.childManagement;
+package com.eatda.data.api.child;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,7 +15,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class SponsorChildManagementRetrofitClient {
+public class ChildRetrofitClient {
 
     private static Retrofit retrofit;
 

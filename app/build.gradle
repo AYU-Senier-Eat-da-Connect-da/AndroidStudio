@@ -43,9 +43,16 @@ dependencies {
     implementation libs.converter.gson
     implementation libs.gson
     implementation libs.logging.interceptor.v3110
+<<<<<<< HEAD
+=======
     implementation libs.android.jwtdecode
     implementation libs.android //최신 버전 추천
     implementation libs.android.bio //생체인증 결제 사용시 추가
+>>>>>>> 884d4b54ea3b594f5486ddfad3aae582c0821a36
     implementation libs.converter.scalars
     implementation libs.android.jwtdecode // jwt 디코드 라이브러리
+    implementation 'io.github.bootpay:android:+' //부트페이
+    //사진 라이브러리
+    implementation libs.glide
+    annotationProcessor libs.compiler
 }
