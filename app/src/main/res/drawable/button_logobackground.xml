@@ -1,0 +1,11 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 버튼의 배경색을 투명으로 설정 -->
+    <solid android:color="@android:color/transparent" />
+
+    <!-- 테두리 설정 -->
+    <stroke
+        android:width="2dp"
+        android:color="#A9EB83" />
+
+    <corners android:radius="8dp" />
+</shape>
