@@ -28,24 +28,23 @@ import com.eatda.R;
 import com.eatda.data.api.restaurant.PresidentManageRestaurantApiService;
 import com.eatda.data.api.president.PresidentRetrofitClient;
 import com.eatda.data.form.restaurant.RestaurantRequest;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RestaurantAdd extends AppCompatActivity {
 
-    private static final int GALLERY_REQUEST_CODE = -1;
+    private static final int GALLERY_REQUEST_CODE = 1;
     private Long presidentId;
     private String restaurantCategory;
     private ImageView photoPreview;
-    private Uri selectedImageUri;
     private Long restaurantId;
+    private Uri imageUri;
+    private Uri photoUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,11 +84,20 @@ public class RestaurantAdd extends AppCompatActivity {
         presidentId = getSubFromToken();
         Log.d("sponsorID :", "사장ID" + presidentId);
 
+        Button btn_selectImage = findViewById(R.id.select_photo_button);
         Button btn_addRestaurant = findViewById(R.id.register_button);
         EditText text_restaurantName = findViewById(R.id.restaurant_name);
         EditText text_restaurantAddress = findViewById(R.id.restaurant_address);
         EditText text_restaurantNumber = findViewById(R.id.restaurant_number);
         EditText text_restaurantBody = findViewById(R.id.restaurant_body);
+
+        btn_selectImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, GALLERY_REQUEST_CODE);
+            }
+        });
         
         btn_addRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +123,6 @@ public class RestaurantAdd extends AppCompatActivity {
 
     }
 
-
     private void addRestaurant(String restaurantName, String restaurantAddress, String restaurantNumber, String restaurantBody, String restaurantCategory) {
         PresidentManageRestaurantApiService service = PresidentRetrofitClient.getRetrofitInstance(this).create(PresidentManageRestaurantApiService.class);
         RestaurantRequest request = new RestaurantRequest(restaurantName, restaurantAddress, restaurantNumber, restaurantBody, restaurantCategory ,presidentId);
@@ -127,8 +134,8 @@ public class RestaurantAdd extends AppCompatActivity {
                 Log.d("Retrofit Response", "Code: " + response.code() + ", Body: " + response.body());
                 if(response.isSuccessful() && response.body() != null){
                     restaurantId = response.body().getId();
+                    uploadImageToFirebase(photoUri);
                     addShowAlertDialog("등록 완료", "식당이 등록 완료되었습니다.",true);
-                    addRestaurantPhoto();
                 }else{
                     addShowAlertDialog("등록 실패", "등록에 실패하였습니다.",false);
                 }
@@ -142,37 +149,6 @@ public class RestaurantAdd extends AppCompatActivity {
         });
     }
 
-    private void addRestaurantPhoto() {
-        if (selectedImageUri == null) {
-            Log.e("Upload", "No image selected");
-            return;
-        }
-
-        File file = new File(selectedImageUri.getPath());
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
-
-        // API 서비스 설정
-        PresidentManageRestaurantApiService service = PresidentRetrofitClient.getRetrofitInstance(this).create(PresidentManageRestaurantApiService.class);
-        Call<String> call = service.uploadOrUpdateRestaurantPhoto(restaurantId, body);
-
-        // API 호출 및 응답 처리
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    Log.d("Upload", "사진 업로드 성공: " + response.body());
-                } else {
-                    Log.e("Upload", "사진 업로드 실패: " + response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.e("Upload", "사진 업로드 에러: " + t.getMessage());
-            }
-        });
-    }
 
 
     private Long getSubFromToken() {
@@ -211,8 +187,47 @@ public class RestaurantAdd extends AppCompatActivity {
         builder.show();
     }
 
-    public void openGallery(View view) {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, GALLERY_REQUEST_CODE);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            photoUri = data.getData();
+            photoPreview.setImageURI(photoUri);  // 이미지 미리보기 설정
+        }
     }
+
+
+    private void uploadImageToFirebase(Uri fileUri) {
+        if (presidentId == null) {
+            showAlertDialog("오류", "사장 ID가 설정되지 않았습니다.");
+            return;
+        }
+
+        // Firebase Storage 참조 가져오기
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        StorageReference fileRef = storageRef.child("restaurant/restaurant_" + presidentId + ".jpg");
+
+        // 파일 업로드 시작
+        fileRef.putFile(fileUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String downloadUrl = uri.toString();
+                        Log.d("Firebase Storage", "Image URL: " + downloadUrl);
+                        showAlertDialog("업로드 완료", "이미지가 성공적으로 업로드되었습니다.");
+                    });
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Firebase Storage", "업로드 실패: " + e.getMessage());
+                    showAlertDialog("업로드 실패", "이미지 업로드에 실패했습니다.");
+                })
+                .addOnProgressListener(taskSnapshot -> {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    Log.d("Firebase Storage", "업로드 진행: " + progress + "%");
+                });
+    }
+
+
+
 }
