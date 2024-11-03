@@ -1,6 +1,7 @@
 package com.eatda.data.api.goodInfluenceStore;
 
-import com.eatda.kakaomap.goodInfluenceStore.GoodInfluenceResponse;
+import com.eatda.kakaomap.goodInfluenceStore.ApiResponse;
+import com.eatda.kakaomap.goodInfluenceStore.GgGoodInflStore;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -10,7 +11,7 @@ public interface GoodInfluenceStoreApiService {
     String Key = "c1d303fc6d9b40bca412e31828f322f5";
 
     @GET("GGGOODINFLSTOREST")
-    Call<GoodInfluenceResponse> getGoodInfluenceStores(
+    Call<ApiResponse> getGoodInfluenceStores(
             @Query("Key") String Key,
             @Query("Type") String Type,
             @Query("pIndex") int pIndex,

@@ -46,7 +46,6 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit-v260 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
 rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxjava" }
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
-##vectormap = { module = "com.kakao.sdk:vectormap", version.ref = "vectormap" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
