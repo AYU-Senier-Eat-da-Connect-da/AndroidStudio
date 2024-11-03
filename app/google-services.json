@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1019639560788",
+    "project_id": "eatda-95c91",
+    "storage_bucket": "eatda-95c91.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019639560788:android:096244a585341667fa8bc1",
+        "android_client_info": {
+          "package_name": "com.eatda"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9kpsoMISYjn-aoJsEsBPcaWhZejmNAng"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

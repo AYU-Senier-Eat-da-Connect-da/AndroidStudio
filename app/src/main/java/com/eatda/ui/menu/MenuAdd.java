@@ -3,10 +3,14 @@ package com.eatda.ui.menu;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -24,6 +28,8 @@ import com.eatda.data.api.menu.PresidentManageMenuApiService;
 import com.eatda.data.form.menu.MenuRequest;
 import com.eatda.data.api.president.PresidentRetrofitClient;
 import com.eatda.ui.restaurant.RestaurantsMgmt;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +37,11 @@ import retrofit2.Response;
 
 public class MenuAdd extends AppCompatActivity {
 
+    private static final int GALLERY_REQUEST_CODE = 1;
     private Long presidentId;
+    private Uri photoUri;
+    private ImageView photoPreview;
+    private Long menuId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +56,22 @@ public class MenuAdd extends AppCompatActivity {
 
         presidentId = getSubFromToken();
         Button btn_addRestaurant = findViewById(R.id.register_button);
+        Button btn_selectImage = findViewById(R.id.select_photo_button);
         EditText text_menuName = findViewById(R.id.menu_name);
         EditText text_menuBody = findViewById(R.id.menu_body);
         EditText text_price = findViewById(R.id.menu_price);
         RadioGroup radioGroup = findViewById(R.id.menu_status_group);
         RadioButton Rbtn_true = findViewById(R.id.menu_status_available);
         RadioButton Rbtn_false = findViewById(R.id.menu_status_sold_out);
+        photoPreview = findViewById(R.id.photo_preview);
+
+        btn_selectImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, GALLERY_REQUEST_CODE);
+            }
+        });
 
         btn_addRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +113,8 @@ public class MenuAdd extends AppCompatActivity {
             public void onResponse(Call<MenuRequest> call, Response<MenuRequest> response) {
                 if(response.isSuccessful() && response.body() != null){
                     addShowAlertDialog("등록 완료", "메뉴 등록 완료되었습니다.",true);
+                    menuId = response.body().getMenuId();
+                    uploadImageToFirebase(photoUri);
                 }else{
                     addShowAlertDialog("등록 실패", "등록에 실패하였습니다.",false);
                 }
@@ -139,5 +161,46 @@ public class MenuAdd extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            photoUri = data.getData();
+            photoPreview.setImageURI(photoUri);  // 이미지 미리보기 설정
+        }
+    }
+
+
+    private void uploadImageToFirebase(Uri fileUri) {
+        if (menuId == null) {
+            showAlertDialog("오류", "메뉴 ID가 설정되지 않았습니다.");
+            return;
+        }
+
+        // Firebase Storage 참조 가져오기
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        StorageReference fileRef = storageRef.child("menu/menu_" + menuId + ".jpg");
+
+        // 파일 업로드 시작
+        fileRef.putFile(fileUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String downloadUrl = uri.toString();
+                        Log.d("Firebase Storage", "Image URL: " + downloadUrl);
+                        showAlertDialog("업로드 완료", "이미지가 성공적으로 업로드되었습니다.");
+                    });
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Firebase Storage", "업로드 실패: " + e.getMessage());
+                    showAlertDialog("업로드 실패", "이미지 업로드에 실패했습니다.");
+                })
+                .addOnProgressListener(taskSnapshot -> {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    Log.d("Firebase Storage", "업로드 진행: " + progress + "%");
+                });
     }
 }

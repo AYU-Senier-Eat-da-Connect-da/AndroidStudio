@@ -43,8 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/testimg"
-                    android:onClick="openGallery"/>
+                    android:src="@drawable/testimg" />
 
                 <Button
                     android:id="@+id/select_photo_button"

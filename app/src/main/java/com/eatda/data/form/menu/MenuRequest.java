@@ -46,4 +46,8 @@ public class MenuRequest {
     public Long getRestaurantId(){
         return this.restaurantId;
     }
+
+    public Long getMenuId(){
+        return this.id;
+    }
 }
