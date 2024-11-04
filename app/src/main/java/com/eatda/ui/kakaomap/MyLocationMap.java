@@ -1,4 +1,4 @@
-package com.eatda.kakaomap;
+package com.eatda.ui.kakaomap;
 
 import static androidx.core.location.LocationManagerCompat.getCurrentLocation;
 
@@ -7,11 +7,9 @@ import static com.kakao.vectormap.camera.CameraUpdateFactory.newCenterPosition;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationRequest;
-import android.os.Build;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -23,16 +21,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.eatda.R;
 import com.eatda.data.api.goodInfluenceStore.GoodInfluenceStoreApiService;
 import com.eatda.data.api.goodInfluenceStore.GoodInfluenceStoreRetrofitClient;
-import com.eatda.kakaomap.goodInfluenceStore.ApiResponse;
-import com.eatda.kakaomap.goodInfluenceStore.StoreInfo;
+import com.eatda.data.form.goodInfluenceStore.ApiResponse;
+import com.eatda.data.form.goodInfluenceStore.StoreInfo;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.kakao.vectormap.KakaoMap;
 import com.kakao.vectormap.KakaoMapReadyCallback;
@@ -40,8 +38,6 @@ import com.kakao.vectormap.KakaoMapSdk;
 import com.kakao.vectormap.LatLng;
 import com.kakao.vectormap.MapLifeCycleCallback;
 import com.kakao.vectormap.MapView;
-import com.kakao.vectormap.camera.CameraUpdate;
-import com.kakao.vectormap.camera.CameraUpdateFactory;
 import com.kakao.vectormap.label.Label;
 import com.kakao.vectormap.label.LabelLayer;
 import com.kakao.vectormap.label.LabelOptions;
@@ -97,6 +93,10 @@ public class MyLocationMap extends AppCompatActivity {
             public void onMapReady(@NonNull KakaoMap map) {
                 kakaoMap = map;
                 fetchGoodInfluenceData();
+
+                // 서울시청 위치를 초기 위치로 설정
+                LatLng seoulCityHall = LatLng.from(37.5665, 126.9780);
+                updateMapLocation(seoulCityHall); // 서울시청 위치로 카메라 이동
 
                 // '내 위치 주변 보기' 버튼
                 Button btn_my_location = findViewById(R.id.btn_my_location);

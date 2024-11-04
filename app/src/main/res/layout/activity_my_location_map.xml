@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".kakaomap.MyLocationMap">
+    tools:context=".ui.kakaomap.MyLocationMap">
 
     <com.kakao.vectormap.MapView
         android:id="@+id/map_view"
@@ -20,18 +20,11 @@
             android:id="@+id/btn_my_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_margin="16dp"
-            android:text="내 위치 주변 보기" />
+            android:layout_marginTop="436dp"
+            android:text="내위치"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.674"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </com.kakao.vectormap.MapView>
-
-    <!--    <Button-->
-<!--        android:id="@+id/current_location_button"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="현재 위치"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        android:layout_margin="16dp"/>-->
-
 </androidx.constraintlayout.widget.ConstraintLayout>

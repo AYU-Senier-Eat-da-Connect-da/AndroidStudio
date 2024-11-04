@@ -21,8 +21,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
+import com.eatda.MainActivity;
 import com.eatda.R;
-import com.eatda.kakaomap.MyLocationMap;
+import com.eatda.ui.kakaomap.MyLocationMap;
 import com.eatda.ui.child.ChildMyPage;
 import com.eatda.ui.president.PresidentMyPage;
 import com.eatda.ui.sponsor.SponsorMyPage;
@@ -64,7 +65,7 @@ public class Home extends AppCompatActivity {
                 return false;
             }
         });
-
+/*
         // 내 위치로 검색
         Button findMyLocation = findViewById(R.id.btn_findMyLocation);
         findMyLocation.setOnClickListener(new View.OnClickListener() {
@@ -96,8 +97,17 @@ public class Home extends AppCompatActivity {
                     goSearchButton(buttonText);
                 }
             });
-        }
+        }*/
+        //카카오 지도 (내위치조회)
 
+        Button btn_kakaomap = findViewById(R.id.btn_kakaomap);
+        btn_kakaomap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Home.this, MyLocationMap.class);
+                startActivity(intent);
+            }
+        });
 
 
         // 마이 페이지

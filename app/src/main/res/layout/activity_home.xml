@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.Home">
+    tools:context=".ui.home.Home">
 
     <!-- 스크롤이 가능한 부분 -->
     <ScrollView
@@ -72,6 +72,7 @@
                 android:layout_marginBottom="16dp">
 
                 <android.widget.Button
+                    android:id="@+id/btn_kakaomap"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

@@ -18,12 +18,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.eatda.kakaomap.MyLocationMap;
+import com.eatda.ui.kakaomap.MyLocationMap;
 import com.eatda.data.api.login.LoginApiService;
 import com.eatda.data.api.login.LoginRetrofitClient;
 import com.eatda.data.form.login.LoginRequest;
 import com.eatda.ui.Join;
-import com.eatda.ui.Login;
 import com.eatda.ui.home.Home;
 
 import retrofit2.Call;
@@ -72,17 +71,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Join.class);
-                startActivity(intent);
-            }
-        });
-
-
-        //Todo: 임시 위치
-        Button btn_kakaomap = findViewById(R.id.btn_kakaomap);
-        btn_kakaomap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MyLocationMap.class);
                 startActivity(intent);
             }
         });

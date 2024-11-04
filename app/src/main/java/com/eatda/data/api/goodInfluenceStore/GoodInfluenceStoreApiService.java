@@ -1,7 +1,6 @@
 package com.eatda.data.api.goodInfluenceStore;
 
-import com.eatda.kakaomap.goodInfluenceStore.ApiResponse;
-import com.eatda.kakaomap.goodInfluenceStore.GgGoodInflStore;
+import com.eatda.data.form.goodInfluenceStore.ApiResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

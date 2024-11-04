@@ -1,6 +1,4 @@
-package com.eatda.kakaomap.goodInfluenceStore;
-
-import com.kakao.vectormap.label.LabelTextBuilder;
+package com.eatda.data.form.goodInfluenceStore;
 
 public class StoreInfo {
     private String CMPNM_NM; // 가게 이름

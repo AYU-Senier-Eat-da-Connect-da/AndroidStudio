@@ -1,4 +1,4 @@
-package com.eatda.kakaomap.goodInfluenceStore;
+package com.eatda.data.form.goodInfluenceStore;
 
 
 import java.util.List;
