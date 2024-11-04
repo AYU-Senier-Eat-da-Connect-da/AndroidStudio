@@ -48,12 +48,14 @@ dependencies {
     implementation libs.android //최신 버전 추천
     implementation libs.android.bio //생체인증 결제 사용시 추가
     implementation libs.converter.scalars
+    implementation libs.google.gson.v287    //json <-> 객체변환 위해 사용
+    implementation libs.open.android    //kakao api
+    implementation libs.play.services.location  //위치 사용권한
     implementation libs.android.jwtdecode // jwt 디코드 라이브러리
     implementation 'io.github.bootpay:android:+' //부트페이
     //사진 라이브러리
     implementation libs.glide
     annotationProcessor libs.compiler
-
     // Firebase 사용을 위한 BOM 및 필요한 모듈 추가
     implementation platform('com.google.firebase:firebase-bom:32.1.0')
     implementation 'com.google.firebase:firebase-analytics'
@@ -61,3 +63,4 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+

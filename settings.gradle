@@ -17,6 +17,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://devrepo.kakao.com/nexus/repository/kakaomap-releases/' }
         maven { url 'https://jitpack.io' } // 추가된 부분
     }
 }

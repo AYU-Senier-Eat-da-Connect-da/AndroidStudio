@@ -18,16 +18,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.eatda.ui.kakaomap.MyLocationMap;
 import com.eatda.data.api.login.LoginApiService;
 import com.eatda.data.api.login.LoginRetrofitClient;
 import com.eatda.data.form.login.LoginRequest;
 import com.eatda.ui.Join;
-import com.eatda.ui.Login;
 import com.eatda.ui.home.Home;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+
         });
 
         Button btn_login = findViewById(R.id.signInButton);
@@ -72,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     private void login(String userEmail, String userPassword) {

@@ -2,9 +2,11 @@
 agp = "8.3.1"
 android = "4.9.0"
 androidBio = "4.4.21"
+androidVersion = "2.12.8"
+converterGson = "2.6.0"
+googleGson = "2.8.7"
 androidMavenGradlePlugin = "2.1"
 client_android_java = "3.3.91"
-converterGson = "2.6.0"
 firebaseBom = "33.5.1"
 firebaseCore = "21.1.1"
 glide = "4.12.0"
@@ -19,6 +21,7 @@ loggingInterceptorVersion = "3.11.0"
 material = "1.12.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
+playServicesLocation = "21.1.0"
 retrofit = "2.9.0"
 retrofitVersion = "2.6.0"
 rxjava = "3.0.0"
@@ -34,6 +37,7 @@ compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 converter-gson-v260 = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit" }
+google-gson-v287 = { module = "com.google.code.gson:gson", version.ref = "googleGson" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-core = { module = "com.google.firebase:firebase-core", version.ref = "firebaseCore" }
@@ -49,6 +53,8 @@ logging-interceptor-v3110 = { module = "com.squareup.okhttp3:logging-interceptor
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+open-android = { module = "com.kakao.maps.open:android", version.ref = "androidVersion" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-v260 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
 rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxjava" }
