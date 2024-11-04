@@ -304,7 +304,7 @@ public class MyLocationMap extends AppCompatActivity {
     private void addCurrentLocationLabel(LatLng currentLocation) {
 
         LabelStyles styles = kakaoMap.getLabelManager()
-                .addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.marker_icon))); // 원하는 아이콘으로 변경
+                .addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.my_location_icon2)));
 
         LabelOptions options = LabelOptions.from(currentLocation)
                 .setStyles(styles)
