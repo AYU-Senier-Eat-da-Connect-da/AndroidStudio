@@ -15,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.eatda.MainActivity;
 import com.eatda.ui.Join;
 import com.eatda.ui.Login;
 import com.eatda.R;
@@ -199,7 +200,7 @@ public class PresidentJoin extends AppCompatActivity {
             dialog.dismiss();
             // Intent를 실행해야 하는 경우
             if (shouldStartIntent) {
-                Intent intent = new Intent(PresidentJoin.this, Login.class);
+                Intent intent = new Intent(PresidentJoin.this, MainActivity.class);
                 startActivity(intent);
             }
         });

@@ -2,7 +2,9 @@ package com.eatda.ui.restaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.eatda.R;
 import com.eatda.ReviewContext;
 import com.eatda.data.api.restaurant.PresidentManageRestaurantApiService;
@@ -23,6 +26,8 @@ import com.eatda.ui.menu.MenuContext;
 import com.eatda.data.api.president.PresidentRetrofitClient;
 import com.eatda.data.form.restaurant.RestaurantDetailResponse;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
 
@@ -35,6 +40,7 @@ public class RestaurantDetail extends AppCompatActivity {
     private LinearLayout restaurant_container;
     private LinearLayout menu_container;
     private int sum = 0;
+    private Long presidentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +93,7 @@ public class RestaurantDetail extends AppCompatActivity {
 
         // XML 레이아웃을 불러와서 restaurant_container에 추가
         View restaurantView = getLayoutInflater().inflate(R.layout.restaurant_item_detail_restaurant, restaurant_container, false);
-
+        presidentId = restaurant.getPresidentId();
         TextView restaurantName = restaurantView.findViewById(R.id.restaurant_name);
         TextView restaurantAddress = restaurantView.findViewById(R.id.restaurant_address);
         TextView restaurantNumber = restaurantView.findViewById(R.id.restaurant_number);
@@ -101,58 +107,11 @@ public class RestaurantDetail extends AppCompatActivity {
         restaurantBody.setText(restaurant.getRestaurantBody());
         restaurantCategory.setText(restaurant.getRestaurantCategory());
 
-        // restaurant_container에 식당 정보를 담은 View 추가
         restaurant_container.addView(restaurantView);
+        getPhoto();
 
-        // 메뉴 리스트가 없을 때 "메뉴가 없습니다" 메시지를 추가
-        /*
-        if (restaurant.getMenus() == null || restaurant.getMenus().isEmpty()) {
-            TextView emptyMenuMessage = new TextView(this);
-            emptyMenuMessage.setText("메뉴가 없습니다.");
-            emptyMenuMessage.setTextSize(16);
-            emptyMenuMessage.setTextColor(getResources().getColor(android.R.color.darker_gray));
-            emptyMenuMessage.setPadding(16, 16, 16, 16);
+        // 탭 레이아웃 세팅
 
-            menu_container.addView(emptyMenuMessage);
-        } else {
-            // 메뉴 리스트 가져와서 menu_container에 추가
-            for (MenuResponse menu : restaurant.getMenus()) {
-                View menuView = getLayoutInflater().inflate(R.layout.restaurant_item_detail_menu, menu_container, false);
-
-                // menuView에서 CardView와 CheckBox 참조
-                CardView cardView = menuView.findViewById(R.id.menu_card_view);
-                CheckBox checkBox = menuView.findViewById(R.id.menu_check_box);
-
-                TextView menuName = menuView.findViewById(R.id.menu_name);
-                TextView menuBody = menuView.findViewById(R.id.menu_body);
-                TextView menuPrice = menuView.findViewById(R.id.menu_price);
-                TextView menuStatus = menuView.findViewById(R.id.menu_status);
-
-                // Menu 정보를 설정
-                menuName.setText(menu.getMenuName());
-                menuBody.setText(menu.getMenuBody());
-                menuPrice.setText(String.format("%,d 원", menu.getPrice())); // 가격 형식 맞추기
-                menuStatus.setText(menu.getMenuStatus() ? "주문 가능" : "품절");
-
-                cardView.setOnClickListener(v -> {
-                    checkBox.setChecked(!checkBox.isChecked()); // 현재 상태 반전
-                    if (checkBox.isChecked()) {
-                        cardView.setCardBackgroundColor(getResources().getColor(R.color.baseColor)); // 선택된 색상
-                        sum += menu.getPrice();
-                        currentSum.setText(String.format("%,d 원", sum));
-                    } else {
-                        cardView.setCardBackgroundColor(getResources().getColor(R.color.white)); // 기본 색상
-                        sum -= menu.getPrice();
-                        currentSum.setText(String.format("%,d 원", sum));
-                    }
-                });
-
-
-                // menu_container에 메뉴 정보를 담은 View 추가
-                menu_container.addView(menuView);
-            }
-
-         */
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         ViewPager viewPager = findViewById(R.id.view_pager);
         TabLayout tabLayout = findViewById(R.id.tabs);
@@ -169,6 +128,26 @@ public class RestaurantDetail extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+    private void getPhoto() {
+        // Firebase Storage 참조 가져오기
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        // 이미지 경로 설정
+        StorageReference imageRef = storageRef.child("restaurant/restaurant_" + presidentId + ".jpg");
+
+        // 이미지 다운로드 URL 가져오기
+        imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            ImageView imageView = findViewById(R.id.imageView3);  // ImageView 설정
+            Glide.with(getApplicationContext())
+                    .load(uri)  // Glide로 다운로드 URL 로드
+                    .into(imageView);
+        }).addOnFailureListener(e -> {
+            Toast.makeText(RestaurantDetail.this, "이미지 로드 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("Firebase Storage", "이미지 로드 오류: " + e.getMessage());
+        });
     }
 
 }

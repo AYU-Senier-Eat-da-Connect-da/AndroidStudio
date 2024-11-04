@@ -164,10 +164,6 @@ public class MyLocationMap extends AppCompatActivity {
                                         .setZoomLevel(0),
 
                                 LabelStyle.from(R.drawable.marker_icon)
-                                        .setTextStyles(20, Color.BLACK)
-                                        .setZoomLevel(11),
-
-                                LabelStyle.from(R.drawable.marker_icon)
                                         .setTextStyles(22, Color.BLACK)
                                         .setZoomLevel(12),
 
@@ -304,7 +300,7 @@ public class MyLocationMap extends AppCompatActivity {
     private void addCurrentLocationLabel(LatLng currentLocation) {
 
         LabelStyles styles = kakaoMap.getLabelManager()
-                .addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.my_location_icon2)));
+                .addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.my_location_icon)));
 
         LabelOptions options = LabelOptions.from(currentLocation)
                 .setStyles(styles)

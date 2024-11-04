@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,16 +24,21 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
+import com.bumptech.glide.Glide;
 import com.eatda.R;
 import com.eatda.data.api.restaurant.PresidentManageRestaurantApiService;
 import com.eatda.data.api.menu.PresidentManageMenuApiService;
 import com.eatda.data.form.menu.MenuResponse;
+import com.eatda.data.form.restaurant.RestaurantPhotoResponse;
 import com.eatda.ui.menu.MenuAdd;
 import com.eatda.ui.menu.MenuModify;
 import com.eatda.ui.president.PresidentMyPage;
 import com.eatda.data.api.president.PresidentRetrofitClient;
 import com.eatda.data.form.restaurant.RestaurantResponse;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,6 +50,8 @@ public class RestaurantsMgmt extends AppCompatActivity {
     private LinearLayout restaurantContainer;
     private LinearLayout menuContainer;
     private Long presidentId;
+    private Long restaurantId;
+    private Long menuId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +100,10 @@ public class RestaurantsMgmt extends AppCompatActivity {
                     }else {
                         List<RestaurantResponse> restaurant = response.body();
                         Toast.makeText(RestaurantsMgmt.this, "내 식당을 불러옵니다.", Toast.LENGTH_SHORT).show();
+                        restaurantId = response.body().get(0).getId();
+                        Toast.makeText(RestaurantsMgmt.this,"식당 :" + restaurantId,Toast.LENGTH_SHORT).show();
                         displayRestaurant(restaurant);
+                        getRestaurantPhoto();
                     }
                 }
             }
@@ -127,6 +139,47 @@ public class RestaurantsMgmt extends AppCompatActivity {
         });
     }
 
+    private void getRestaurantPhoto() {
+        // Firebase Storage 참조 가져오기
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        // 이미지 경로 설정
+        StorageReference imageRef = storageRef.child("restaurant/restaurant_" + presidentId + ".jpg");
+
+        // 이미지 다운로드 URL 가져오기
+        imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            ImageView imageView = findViewById(R.id.imageView3);  // ImageView 설정
+            Glide.with(getApplicationContext())
+                    .load(uri)  // Glide로 다운로드 URL 로드
+                    .into(imageView);
+        }).addOnFailureListener(e -> {
+            Toast.makeText(RestaurantsMgmt.this, "이미지 로드 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("Firebase Storage", "이미지 로드 오류: " + e.getMessage());
+        });
+    }
+
+    private void getMenuPhoto(Long menuId, View menuView) {
+        // Firebase Storage 참조 가져오기
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        // 이미지 경로 설정
+        StorageReference imageRef = storageRef.child("menu/menu_" + menuId + ".jpg");
+
+        // 메뉴 항목의 ImageView 참조 가져오기
+        ImageView imageView = menuView.findViewById(R.id.photo_preview);
+
+        // 이미지 다운로드 URL 가져오기
+        imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            Glide.with(this)
+                    .load(uri)
+                    .into(imageView);
+        }).addOnFailureListener(e -> {
+            Toast.makeText(RestaurantsMgmt.this, "이미지 로드 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("Firebase Storage", "음식 이미지 로드 오류: " + e.getMessage());
+        });
+    }
 
 
     private void displayRestaurant(List<RestaurantResponse> restaurant){
@@ -159,6 +212,7 @@ public class RestaurantsMgmt extends AppCompatActivity {
                     intent.putExtra("restaurantNumber",response.getRestaurantNumber());
                     intent.putExtra("restaurantBody", response.getRestaurantBody());
                     intent.putExtra("restaurantCategory", response.getRestaurantCategory());
+                    intent.putExtra("presidentId",presidentId);
 
                     startActivity(intent);
                 }
@@ -209,8 +263,9 @@ public class RestaurantsMgmt extends AppCompatActivity {
     private void displayMenu(List<MenuResponse> menu){
         for(MenuResponse response : menu){
             View menuView = LayoutInflater.from(this).inflate(R.layout.menu_item_mgmt, menuContainer, false);
-            Log.d("MenuID", "메뉴 ID: " + response.getId());
+            Log.d("MenuID", "메뉴 ID: " + response.getMenuId());
 
+            menuId = response.getMenuId();
             TextView menuName = menuView.findViewById(R.id.menu_name);
             TextView menuBody = menuView.findViewById(R.id.menu_body);
             TextView menuStatus = menuView.findViewById(R.id.menu_status);
@@ -223,65 +278,52 @@ public class RestaurantsMgmt extends AppCompatActivity {
             menuStatus.setText(response.getMenuStatus() ? "주문 가능" : "품절");
             menuPrice.setText(String.format("%,d 원", response.getPrice()));
 
-            Long menuId = response.getId();
+            Long menuId = response.getMenuId();
 
-            /*
-            메뉴 수정
-             */
-            btn_menuModify.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(RestaurantsMgmt.this, MenuModify.class);
+            btn_menuModify.setOnClickListener(v -> {
+                Intent intent = new Intent(RestaurantsMgmt.this, MenuModify.class);
 
-                    intent.putExtra("menuId",menuId);
-                    intent.putExtra("menuName", response.getMenuName());
-                    intent.putExtra("menuBody", response.getMenuBody());
-                    intent.putExtra("menuStatus", response.getMenuStatus());
-                    intent.putExtra("menuPrice", response.getPrice());
+                intent.putExtra("menuId", menuId);
+                intent.putExtra("menuName", response.getMenuName());
+                intent.putExtra("menuBody", response.getMenuBody());
+                intent.putExtra("menuStatus", response.getMenuStatus());
+                intent.putExtra("menuPrice", response.getPrice());
 
-                    startActivity(intent);
-                }
+                startActivity(intent);
             });
 
-            /*
-            메뉴 삭제
-             */
-            btn_menuDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new AlertDialog.Builder(v.getContext())
-                            .setTitle("메뉴 삭제")
-                            .setMessage("삭제하시겠습니까?")
-                            .setPositiveButton("예", new DialogInterface.OnClickListener() {
+            btn_menuDelete.setOnClickListener(v -> {
+                new AlertDialog.Builder(v.getContext())
+                        .setTitle("메뉴 삭제")
+                        .setMessage("삭제하시겠습니까?")
+                        .setPositiveButton("예", (dialog, which) -> {
+                            PresidentManageMenuApiService service = PresidentRetrofitClient.getRetrofitInstance(v.getContext()).create(PresidentManageMenuApiService.class);
+
+                            Call<String> call = service.deleteMenu(menuId);
+                            Log.d("MenuID", "메뉴 ID: " + menuId);
+                            call.enqueue(new Callback<String>() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    PresidentManageMenuApiService service = PresidentRetrofitClient.getRetrofitInstance(v.getContext()).create(PresidentManageMenuApiService.class);
-
-                                    Call<String> call = service.deleteMenu(menuId);
-                                    Log.d("MenuID", "메뉴 ID: " + menuId);
-                                    call.enqueue(new Callback<String>() {
-                                        @Override
-                                        public void onResponse(Call<String> call, Response<String> response) {
-                                            if(response.isSuccessful() && response.body() != null){
-                                                menuContainer.removeView(menuView);
-                                                Toast.makeText(RestaurantsMgmt.this, "메뉴 삭제 완료", Toast.LENGTH_SHORT).show();
-                                            }else{
-                                                Toast.makeText(RestaurantsMgmt.this, "메뉴 삭제 실패", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<String> call, Throwable t) {
-                                            Toast.makeText(RestaurantsMgmt.this, "네트워크 오류", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                public void onResponse(Call<String> call, Response<String> response) {
+                                    if(response.isSuccessful() && response.body() != null){
+                                        menuContainer.removeView(menuView);
+                                        Toast.makeText(RestaurantsMgmt.this, "메뉴 삭제 완료", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(RestaurantsMgmt.this, "메뉴 삭제 실패", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            })
-                            .setNegativeButton("아니오", null)
-                            .show();
-                }
+
+                                @Override
+                                public void onFailure(Call<String> call, Throwable t) {
+                                    Toast.makeText(RestaurantsMgmt.this, "네트워크 오류", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        })
+                        .setNegativeButton("아니오", null)
+                        .show();
             });
 
+            // menuView에 있는 ImageView를 getMenuPhoto에 전달하여 개별 메뉴 사진 불러오기
+            getMenuPhoto(menuId, menuView);
             menuContainer.addView(menuView);
         }
     }

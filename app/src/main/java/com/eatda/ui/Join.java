@@ -30,7 +30,7 @@ public class Join extends AppCompatActivity {
             return insets;
         });
 
-        Button btn_president = findViewById(R.id.btn_president);
+        Button btn_president = findViewById(R.id.president);
         btn_president.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,7 +39,7 @@ public class Join extends AppCompatActivity {
             }
         });
 
-        Button btn_child = findViewById(R.id.btn_child);
+        Button btn_child = findViewById(R.id.child);
         btn_child.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,7 +48,7 @@ public class Join extends AppCompatActivity {
             }
         });
 
-        Button btn_sponsor = findViewById(R.id.btn_sponsor);
+        Button btn_sponsor = findViewById(R.id.sponsor);
         btn_sponsor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,13 +57,5 @@ public class Join extends AppCompatActivity {
             }
         });
 
-        Button btn_Previous = findViewById(R.id.btn_Previous);
-        btn_Previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Join.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 }

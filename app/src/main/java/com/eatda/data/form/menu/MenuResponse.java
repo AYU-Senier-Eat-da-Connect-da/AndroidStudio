@@ -8,7 +8,7 @@ public class MenuResponse {
     private boolean menuStatus;
     private Long restaurantId;
 
-    public Long getId(){
+    public Long getMenuId(){
         return this.id;
     }
 

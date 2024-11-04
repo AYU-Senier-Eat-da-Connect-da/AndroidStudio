@@ -9,6 +9,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven { url 'https://jitpack.io' } // 추가된 부분
     }
 }
 dependencyResolutionManagement {
@@ -17,6 +18,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url 'https://devrepo.kakao.com/nexus/repository/kakaomap-releases/' }
+        maven { url 'https://jitpack.io' } // 추가된 부분
     }
 }
 

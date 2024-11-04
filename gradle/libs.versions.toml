@@ -5,6 +5,11 @@ androidBio = "4.4.21"
 androidVersion = "2.12.8"
 converterGson = "2.6.0"
 googleGson = "2.8.7"
+androidMavenGradlePlugin = "2.1"
+client_android_java = "3.3.91"
+firebaseBom = "33.5.1"
+firebaseCore = "21.1.1"
+glide = "4.12.0"
 gson = "2.10.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -26,10 +31,18 @@ adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.r
 android = { module = "io.github.bootpay:android", version.ref = "android" }
 android-bio = { module = "io.github.bootpay:android-bio", version.ref = "androidBio" }
 android-jwtdecode = { module = "com.auth0.android:jwtdecode", version.ref = "jwtdecodeVersion" }
+android-maven-gradle-plugin = { module = "com.github.dcendents:android-maven-gradle-plugin", version.ref = "androidMavenGradlePlugin" }
+client_android_java = { module = "com.github.bootpay:client_android_java", version.ref = "client_android_java" }
+compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 converter-gson-v260 = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit" }
 google-gson-v287 = { module = "com.google.code.gson:gson", version.ref = "googleGson" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-core = { module = "com.google.firebase:firebase-core", version.ref = "firebaseCore" }
+firebase-storage = { module = "com.google.firebase:firebase-storage" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

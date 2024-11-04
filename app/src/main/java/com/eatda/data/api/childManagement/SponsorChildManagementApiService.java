@@ -10,6 +10,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface SponsorChildManagementApiService {
     // 후원자에게 모든 아동 리스트를 보여주는 API
@@ -32,4 +33,11 @@ public interface SponsorChildManagementApiService {
 
     @DELETE("/api/sponsor/{sponsorId}/delete/{childId}")
     Call<SponsorDTO> deleteChildFromSponsor(@Path("sponsorId") Long sponsorId, @Path("childId") Long childId);
+
+    @GET("/api/sponsor/update-amount/{sponsorId}")
+    Call<String> updateAmount(@Path("sponsorId") Long sponsorId, @Query("amount") int amount);
+
+    @GET("/api/sponsor/get/{sponsorId}")
+    Call<SponsorDTO> getSponsorInfo(@Path("sponsorId") Long sponsorId);
+
 }
