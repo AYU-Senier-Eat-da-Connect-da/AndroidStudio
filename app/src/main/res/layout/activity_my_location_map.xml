@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.MyLocationMap">
+    tools:context=".kakaomap.MyLocationMap">
 
     <com.kakao.vectormap.MapView
         android:id="@+id/map_view"
@@ -14,9 +14,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
 
-<!--    <Button-->
+        <Button
+            android:id="@+id/btn_my_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="16dp"
+            android:text="내 위치 주변 보기" />
+    </com.kakao.vectormap.MapView>
+
+    <!--    <Button-->
 <!--        android:id="@+id/current_location_button"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->

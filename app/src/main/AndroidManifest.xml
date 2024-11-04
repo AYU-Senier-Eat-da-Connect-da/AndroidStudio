@@ -23,6 +23,10 @@
         android:theme="@style/Theme.Eatda"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <!-- Google Map API Key 설정 -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA7KkQiQ8k0Gwxl06EFKz5Pq_YQQTskn6U" />
         <activity
             android:name=".kakaomap.MyLocationMap"
             android:exported="false" />

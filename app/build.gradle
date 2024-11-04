@@ -48,6 +48,6 @@ dependencies {
     implementation libs.android.bio //생체인증 결제 사용시 추가
     implementation libs.converter.scalars
     implementation libs.google.gson.v287    //json <-> 객체변환 위해 사용
-    implementation libs.open.android
+    implementation libs.open.android    //kakao api
     implementation libs.play.services.location  //위치 사용권한
 }
