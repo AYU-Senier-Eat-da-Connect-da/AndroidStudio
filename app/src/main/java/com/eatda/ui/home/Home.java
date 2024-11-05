@@ -99,7 +99,6 @@ public class Home extends AppCompatActivity {
             });
         }*/
         //카카오 지도 (내위치조회)
-
         Button btn_kakaomap = findViewById(R.id.btn_kakaomap);
         btn_kakaomap.setOnClickListener(new View.OnClickListener() {
             @Override
