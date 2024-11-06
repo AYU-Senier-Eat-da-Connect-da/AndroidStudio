@@ -24,6 +24,7 @@ import com.eatda.ui.restaurant.RestaurantsMgmt;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuContext extends Fragment {
@@ -31,6 +32,7 @@ public class MenuContext extends Fragment {
     private int sum=0;
     private TextView currentSum;
     private Long menuId;
+    private List<MenuResponse> selectMenu = new ArrayList<>();
 
     @Nullable
     @Override
@@ -61,23 +63,39 @@ public class MenuContext extends Fragment {
                 menuStatus.setText(menu.getMenuStatus() ? "주문 가능" : "품절");
 
                 cardView.setOnClickListener(view -> {
-                            checkBox.setChecked(!checkBox.isChecked()); // 현재 상태 반전
-                            if (checkBox.isChecked()) {
-                                cardView.setCardBackgroundColor(getResources().getColor(R.color.baseColor));
-                                sum += menu.getPrice();
-                                currentSum.setText(String.format("%,d 원", sum));
-                            } else {
-                                cardView.setCardBackgroundColor(getResources().getColor(R.color.white));
-                                sum -= menu.getPrice();
-                                currentSum.setText(String.format("%,d 원", sum));
-                            }
-                        });
+                    if (!menu.getMenuStatus()) {
+                        Toast.makeText(getContext(), "품절된 메뉴입니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    checkBox.setChecked(!checkBox.isChecked()); // 현재 상태 반전
+                    if (checkBox.isChecked()) {
+                        cardView.setCardBackgroundColor(getResources().getColor(R.color.baseColor));
+                        sum += menu.getPrice();
+                        currentSum.setText(String.format("%,d 원", sum));
+                        selectMenu.add(menu);
+                    } else {
+                        cardView.setCardBackgroundColor(getResources().getColor(R.color.white));
+                        sum -= menu.getPrice();
+                        currentSum.setText(String.format("%,d 원", sum));
+                        selectMenu.remove(menu);
+                    }
+                });
+
 
                 getMenuPhoto(menuId, menuView);
                 menuContainer.addView(menuView);
             }
         }
         return v;
+    }
+
+    public List<MenuResponse> getSelectedMenus() {
+        return selectMenu;
+    }
+
+    public int getSum(){
+        return sum;
     }
 
     private void getMenuPhoto(Long menuId, View menuView) {

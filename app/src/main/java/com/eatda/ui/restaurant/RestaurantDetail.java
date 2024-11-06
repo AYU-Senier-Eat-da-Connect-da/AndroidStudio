@@ -21,6 +21,8 @@ import com.bumptech.glide.Glide;
 import com.eatda.R;
 import com.eatda.ReviewContext;
 import com.eatda.data.api.restaurant.PresidentManageRestaurantApiService;
+import com.eatda.data.form.menu.MenuResponse;
+import com.eatda.ui.order.Order;
 import com.eatda.ui.president.FragmentAdapter;
 import com.eatda.ui.menu.MenuContext;
 import com.eatda.data.api.president.PresidentRetrofitClient;
@@ -30,6 +32,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,8 +43,13 @@ public class RestaurantDetail extends AppCompatActivity {
 
     private LinearLayout restaurant_container;
     private LinearLayout menu_container;
+    private LinearLayout bottom_Navigation;
     private int sum = 0;
     private Long presidentId;
+    private MenuContext menuFragment;
+    private String intent_restaurantName;
+    private String intent_restaurantAddress;
+    private String intent_restaurantNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +69,23 @@ public class RestaurantDetail extends AppCompatActivity {
 
         restaurant_container = findViewById(R.id.restaurant_container);
         //menu_container = findViewById(R.id.menu_container);
+        bottom_Navigation = findViewById(R.id.bottom_navigation);
         TextView currentSum = findViewById(R.id.current_sum);
 
         setRestaurantDetail(restaurantId);
+
+        bottom_Navigation.setOnClickListener(v->{
+            Intent orderIntent = new Intent(RestaurantDetail.this, Order.class );
+
+            orderIntent.putExtra("restaurantId", restaurantId);
+            orderIntent.putExtra("restaurantName", intent_restaurantName);
+            orderIntent.putExtra("restaurantAddress", intent_restaurantAddress);
+            orderIntent.putExtra("restaurantNumber", intent_restaurantNumber);
+            orderIntent.putExtra("sum", menuFragment.getSum());
+            orderIntent.putParcelableArrayListExtra("selectedMenus", new ArrayList<>(menuFragment.getSelectedMenus())); // 선택된 메뉴 데이터 전달
+            startActivity(orderIntent);
+        });
+
     }
 
     private void setRestaurantDetail(long restaurantDetail) {
@@ -107,6 +130,11 @@ public class RestaurantDetail extends AppCompatActivity {
         restaurantBody.setText(restaurant.getRestaurantBody());
         restaurantCategory.setText(restaurant.getRestaurantCategory());
 
+        //인텐트용 값 가져오기
+        intent_restaurantName = restaurantName.getText().toString();
+        intent_restaurantAddress = restaurantAddress.getText().toString();
+        intent_restaurantNumber = restaurantNumber.getText().toString();
+
         restaurant_container.addView(restaurantView);
         getPhoto();
 
@@ -116,7 +144,7 @@ public class RestaurantDetail extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.view_pager);
         TabLayout tabLayout = findViewById(R.id.tabs);
 
-        MenuContext menuFragment = new MenuContext();
+        menuFragment = new MenuContext();
         Bundle bundle = new Bundle();
         bundle.putSerializable("menus", (Serializable) restaurant.getMenus()); // 메뉴 리스트 전달
         menuFragment.setArguments(bundle);

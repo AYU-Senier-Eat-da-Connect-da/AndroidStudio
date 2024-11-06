@@ -76,6 +76,8 @@ public class Home extends AppCompatActivity {
             }
         });
 
+ */
+
         List<Button> foodButtons = Arrays.asList(
                 findViewById(R.id.cutlet),
                 findViewById(R.id.pizza),
@@ -97,7 +99,8 @@ public class Home extends AppCompatActivity {
                     goSearchButton(buttonText);
                 }
             });
-        }*/
+        }
+
         //카카오 지도 (내위치조회)
         Button btn_kakaomap = findViewById(R.id.btn_kakaomap);
         btn_kakaomap.setOnClickListener(new View.OnClickListener() {
