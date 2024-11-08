@@ -6,6 +6,7 @@ import java.util.List;
 public class OrderResponse {
     private Long id;
     private Long restaurantId;
+    private String restaurantName;
     private Long childId;
     private LocalDateTime orderTime;
     private int price;
@@ -17,6 +18,10 @@ public class OrderResponse {
 
     public Long getRestaurantId() {
         return restaurantId;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
     public Long getChildId() {

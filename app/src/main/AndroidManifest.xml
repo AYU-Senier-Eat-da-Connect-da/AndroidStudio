@@ -27,17 +27,15 @@
             android:name=".ui.order.Order"
             android:exported="false" />
         <!-- FireBase -->
-        <service
-            android:name=".fireBaseMessagingService.FireBaseMessagingService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service> <!-- Google Map API Key 설정 -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA7KkQiQ8k0Gwxl06EFKz5Pq_YQQTskn6U" />
-
+        <activity
+            android:name=".ui.review.RestaurantReviewList"
+            android:exported="false" />
+        <activity
+            android:name=".ui.review.AddReview"
+            android:exported="false" />
         <activity
             android:name=".ui.kakaomap.MyLocationMap"
             android:exported="false" />

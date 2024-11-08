@@ -2,6 +2,7 @@ package com.eatda.data.api.review;
 
 import com.eatda.data.form.review.ReviewRequestDTO;
 import com.eatda.data.form.review.ReviewResponseDTO;
+import com.eatda.data.form.review.ReviewResponseParcel;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import retrofit2.http.Query;
 
 public interface ReviewApiService {
     // 리뷰 작성
-    @POST("/api/reviews/{restaurantId}/addReview")
+    @POST("/api/reviews/restaurant/{restaurantId}/addReview")
     Call<ReviewResponseDTO> addReview(
             @Path("restaurantId") Long restaurantId,
             @Body ReviewRequestDTO reviewRequestDto,
@@ -37,5 +38,11 @@ public interface ReviewApiService {
     @GET("/api/reviews/restaurant/{restaurantId}")
     Call<List<ReviewResponseDTO>> getReviewsByRestaurantId(
             @Path("restaurantId") Long restaurantId
+    );
+
+
+    @GET("/api/reviews/president/{presidentId}")
+    Call<List<ReviewResponseDTO>> getReviewsByPresidentId(
+            @Path("presidentId") Long presidentId
     );
 }

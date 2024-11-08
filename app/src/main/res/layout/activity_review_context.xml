@@ -5,6 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ReviewContext">
+    tools:context=".ui.review.ReviewContext">
+
+    <LinearLayout
+        android:id="@+id/review_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:ignore="MissingConstraints">
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

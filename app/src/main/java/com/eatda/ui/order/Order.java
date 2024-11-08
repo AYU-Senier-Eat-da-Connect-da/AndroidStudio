@@ -9,19 +9,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.eatda.R;
+import com.eatda.data.api.child.ChildApiService;
+import com.eatda.data.api.child.ChildRetrofitClient;
 import com.eatda.data.api.order.OrderApiService;
 import com.eatda.data.api.order.OrderRetrofitClient;
+import com.eatda.data.form.childManagement.ChildResponse;
 import com.eatda.data.form.menu.MenuResponse;
 import com.eatda.data.form.order.MenuOrder;
 import com.eatda.data.form.order.OrderRequest;
@@ -80,6 +79,7 @@ public class Order extends AppCompatActivity {
             }
         });
 
+        getChildinfo();
     }
 
     private void order(){
@@ -127,6 +127,39 @@ public class Order extends AppCompatActivity {
                 Toast.makeText(Order.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void getChildinfo(){
+        ChildApiService service = ChildRetrofitClient.getRetrofitInstance(this).create(ChildApiService.class);
+
+        Call<ChildResponse> call = service.getChildInfo(childId);
+        call.enqueue(new Callback<ChildResponse>() {
+            @Override
+            public void onResponse(Call<ChildResponse> call, Response<ChildResponse> response) {
+                displayChildInfo(response);
+            }
+
+            @Override
+            public void onFailure(Call<ChildResponse> call, Throwable t) {
+                Toast.makeText(Order.this, "네트워크 오류.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private void displayChildInfo(Response<ChildResponse> response){
+        ChildResponse child = response.body();
+
+        TextView childName = findViewById(R.id.orderer_name);
+        TextView childPhone = findViewById(R.id.orderer_phone);
+        TextView childAddress = findViewById(R.id.orderer_address);
+        TextView childAmount = findViewById(R.id.my_point_value);
+
+        childName.setText(child.getChildName());
+        childAddress.setText(child.getChildAddress());
+        childPhone.setText(child.getChildNumber());
+        childAmount.setText(String.format("%,d 원", child.getChildAmount()));
+
     }
 
     private Long getSubFromToken() {

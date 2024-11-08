@@ -1,5 +1,7 @@
 package com.eatda.ui.review;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -14,6 +16,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.auth0.android.jwt.Claim;
+import com.auth0.android.jwt.JWT;
 import com.eatda.R;
 import com.eatda.data.api.review.ReviewApiService;
 import com.eatda.data.api.review.ReviewRetrofitClient;
@@ -50,7 +54,7 @@ public class AddReview extends AppCompatActivity {
 
         // Intent에서 restaurantId와 childId를 받아옴
         restaurantId = getIntent().getLongExtra("restaurantId", -1);
-        childId = getIntent().getLongExtra("childId", -1);
+        childId = getSubFromToken();
 
         // 별점 터치 리스너 설정
         setupStarRatingClickListener();
@@ -107,9 +111,10 @@ public class AddReview extends AppCompatActivity {
 
     // 리뷰 제출 메소드
     private void submitReview(Long restaurantId, ReviewRequestDTO reviewRequestDTO, Long childId) {
-        ReviewApiService service = ReviewRetrofitClient.getRetrofitInstance().create(ReviewApiService.class);
+        ReviewApiService service = ReviewRetrofitClient.getRetrofitInstance(this).create(ReviewApiService.class);
 
         Call<ReviewResponseDTO> call = service.addReview(restaurantId, reviewRequestDTO, childId);
+        Toast.makeText(AddReview.this, "내용 :" + reviewRequestDTO.getReviewBody() + reviewRequestDTO.getReviewStar(), Toast.LENGTH_SHORT).show();
         call.enqueue(new Callback<ReviewResponseDTO>() {
             @Override
             public void onResponse(Call<ReviewResponseDTO> call, Response<ReviewResponseDTO> response) {
@@ -129,5 +134,18 @@ public class AddReview extends AppCompatActivity {
                 Log.e("AddReviewActivity", "네트워크 오류: " + t.getMessage());
             }
         });
+    }
+
+    private Long getSubFromToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("jwt_token", null);
+
+        if (token != null) {
+            JWT jwt = new JWT(token);
+            Claim subClaim = jwt.getClaim("sub");
+            return subClaim.asLong();  // sub 값을 Long으로 변환하여 반환
+        }
+
+        return null;
     }
 }

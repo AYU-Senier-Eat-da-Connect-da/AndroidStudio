@@ -149,8 +149,7 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Other Buttons Below -->
-    <Button
+    <android.widget.Button
         android:id="@+id/btn_child_mgmt"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -158,11 +157,15 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="24dp"
         android:text="후원 아동 관리"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:backgroundTint="#A9EB83"
+        android:background="@drawable/rounded_button"
         app:layout_constraintTop_toBottomOf="@+id/cardView_sponsor_info"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/btn_child_list"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -170,11 +173,15 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
         android:text="후원할 아동 조회"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:backgroundTint="#A9EB83"
+        android:background="@drawable/rounded_button"
         app:layout_constraintTop_toBottomOf="@+id/btn_child_mgmt"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/btn_support"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -182,11 +189,15 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
         android:text="후원하기"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:backgroundTint="#A9EB83"
+        android:background="@drawable/rounded_button"
         app:layout_constraintTop_toBottomOf="@+id/btn_child_list"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/btn_sponsor_help"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -194,8 +205,13 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
         android:text="후원자를 위한 도움말"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:backgroundTint="#A9EB83"
+        android:background="@drawable/rounded_button"
         app:layout_constraintTop_toBottomOf="@+id/btn_support"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
