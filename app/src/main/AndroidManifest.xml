@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.eatda"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <!--위치정보 사용 권한 추가 -->
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.eatda">
+    <!-- 위치정보 사용 권한 추가 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <!-- 인터넷 권한 추가 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 인터넷 권한 추가 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-    <!-- 갤러리 권한 추가 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <!--백그라운드 작동 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 갤러리 권한 추가 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 백그라운드 작동 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
 
     <application
         android:allowBackup="true"
@@ -31,17 +23,19 @@
         android:theme="@style/Theme.Eatda"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.order.Order"
+            android:exported="false" />
         <!-- FireBase -->
-        <service android:name=".fireBaseMessagingService.FireBaseMessagingService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
-        <!-- Google Map API Key 설정 -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA7KkQiQ8k0Gwxl06EFKz5Pq_YQQTskn6U" />
+        <activity
+            android:name=".ui.review.RestaurantReviewList"
+            android:exported="false" />
+        <activity
+            android:name=".ui.review.AddReview"
+            android:exported="false" />
         <activity
             android:name=".ui.kakaomap.MyLocationMap"
             android:exported="false" />
@@ -137,8 +131,10 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

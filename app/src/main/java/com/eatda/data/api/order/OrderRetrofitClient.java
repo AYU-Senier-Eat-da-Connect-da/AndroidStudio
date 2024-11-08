@@ -1,4 +1,4 @@
-package com.eatda.data.api.review;
+package com.eatda.data.api.order;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,10 +20,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class ReviewRetrofitClient {
+public class OrderRetrofitClient {
     private static Retrofit retrofit;
 
     public static Retrofit getRetrofitInstance(Context context) {
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, (JsonDeserializer<LocalDateTime>) (json, type, jsonContext) ->
+                        LocalDateTime.parse(json.getAsString(), DateTimeFormatter.ISO_DATE_TIME))
+                .create();
         if (retrofit == null) {
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(new Interceptor() {
@@ -50,7 +55,7 @@ public class ReviewRetrofitClient {
                     .baseUrl(Local.ip)  // API의 base URL
                     .client(client)  // OkHttpClient 사용
                     .addConverterFactory(ScalarsConverterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit;

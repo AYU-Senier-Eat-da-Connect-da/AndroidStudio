@@ -1,12 +1,15 @@
 package com.eatda.data.form.review;
 
-import java.time.LocalDateTime;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class ReviewResponseDTO {
+import com.eatda.data.form.menu.MenuResponse;
+
+public class ReviewResponseDTO{
     private Long id;
     private int review_star;
     private String review_body;
-    private LocalDateTime createdAt;
+    private String createdAt; // 수정: LocalDateTime에서 String으로 변경
     private Long childId;
     private Long restaurantId;
 
@@ -14,7 +17,7 @@ public class ReviewResponseDTO {
     public ReviewResponseDTO() {}
 
     // 매개변수가 있는 생성자
-    public ReviewResponseDTO(Long id, int review_star, String review_body, LocalDateTime createdAt, Long childId, Long restaurantId) {
+    public ReviewResponseDTO(Long id, int review_star, String review_body, String createdAt, Long childId, Long restaurantId) {
         this.id = id;
         this.review_star = review_star;
         this.review_body = review_body;
@@ -22,6 +25,7 @@ public class ReviewResponseDTO {
         this.childId = childId;
         this.restaurantId = restaurantId;
     }
+
 
     // Getter 및 Setter 메서드
     public Long getId() {
@@ -48,11 +52,11 @@ public class ReviewResponseDTO {
         this.review_body = review_body;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -79,7 +83,7 @@ public class ReviewResponseDTO {
                 "id=" + id +
                 ", review_star=" + review_star +
                 ", review_body='" + review_body + '\'' +
-                ", createdAt=" + createdAt +
+                ", createdAt='" + createdAt + '\'' +
                 ", childId=" + childId +
                 ", restaurantId=" + restaurantId +
                 '}';

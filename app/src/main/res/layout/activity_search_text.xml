@@ -27,6 +27,7 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:background="@drawable/rounded_background"
+                android:backgroundTint="#A9EB83"
                 android:padding="10dp">
 
             <!-- 앱 이름 -->
@@ -78,6 +79,7 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:background="#E0F8EC"
+        android:backgroundTint="#A9EB83"
         android:padding="1dp"
         app:layout_constraintBottom_toBottomOf="parent">
 

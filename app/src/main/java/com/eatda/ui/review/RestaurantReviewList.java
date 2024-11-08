@@ -1,5 +1,7 @@
 package com.eatda.ui.review;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.auth0.android.jwt.Claim;
+import com.auth0.android.jwt.JWT;
 import com.eatda.R;
 import com.eatda.data.api.review.ReviewApiService;
 import com.eatda.data.api.review.ReviewRetrofitClient;
@@ -28,7 +32,7 @@ import retrofit2.Response;
 public class RestaurantReviewList extends AppCompatActivity {
 
     private LinearLayout reviewContainer;
-    private Long restaurantId;
+    private Long presidentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,7 @@ public class RestaurantReviewList extends AppCompatActivity {
         setContentView(R.layout.activity_restaurant_review_list);
 
         // restaurantId를 로그인 정보에서 가져오거나, Intent로부터 받아오는 방식으로 설정해야 함.
-        restaurantId = getIntent().getLongExtra("RESTAURANT_ID", -1);
+        presidentId = getSubFromToken();
         reviewContainer = findViewById(R.id.review_container);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -46,13 +50,13 @@ public class RestaurantReviewList extends AppCompatActivity {
             return insets;
         });
 
-        fetchRestaurantReviews(restaurantId);
+        fetchRestaurantReviews(presidentId);
     }
 
     // 특정 가게의 모든 리뷰 조회
-    private void fetchRestaurantReviews(Long restaurantId) {
-        ReviewApiService service = ReviewRetrofitClient.getRetrofitInstance().create(ReviewApiService.class);
-        Call<List<ReviewResponseDTO>> call = service.getReviewsByRestaurantId(restaurantId);
+    private void fetchRestaurantReviews(Long presidentId) {
+        ReviewApiService service = ReviewRetrofitClient.getRetrofitInstance(this).create(ReviewApiService.class);
+        Call<List<ReviewResponseDTO>> call = service.getReviewsByPresidentId(presidentId);
 
         call.enqueue(new Callback<List<ReviewResponseDTO>>() {
             @Override
@@ -106,6 +110,19 @@ public class RestaurantReviewList extends AppCompatActivity {
                 reviewView.findViewById(starIds[i]).setBackgroundResource(R.drawable.star_empty);
             }
         }
+    }
+
+    private Long getSubFromToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("jwt_token", null);
+
+        if (token != null) {
+            JWT jwt = new JWT(token);
+            Claim subClaim = jwt.getClaim("sub");
+            return subClaim.asLong();  // sub 값을 Long으로 변환하여 반환
+        }
+
+        return null;
     }
 
 //     //Todo: 필요성을 못 느껴서 일단 임시로 두었음

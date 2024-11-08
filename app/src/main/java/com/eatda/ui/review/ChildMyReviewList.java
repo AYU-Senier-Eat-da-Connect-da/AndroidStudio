@@ -1,5 +1,7 @@
 package com.eatda.ui.review;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.auth0.android.jwt.Claim;
+import com.auth0.android.jwt.JWT;
 import com.eatda.R;
 import com.eatda.data.api.review.ReviewApiService;
 import com.eatda.data.api.review.ReviewRetrofitClient;
@@ -36,9 +40,7 @@ public class ChildMyReviewList extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_child_my_review_list);
 
-        // childId를 로그인 정보에서 가져오거나, Intent로부터 받아오는 방식으로 설정해야 함.
-        // Intent로부터 아동 ID를 가져오는 방법
-        childId = getIntent().getLongExtra("CHILD_ID", -1);
+        childId = getSubFromToken();
 
         reviewContainer = findViewById(R.id.review_container);
 
@@ -55,7 +57,7 @@ public class ChildMyReviewList extends AppCompatActivity {
         아동ID로 리뷰 리스트 조회
      */
     private void fetchChildReviews(Long childId) {
-        ReviewApiService service = ReviewRetrofitClient.getRetrofitInstance().create(ReviewApiService.class);
+        ReviewApiService service = ReviewRetrofitClient.getRetrofitInstance(this).create(ReviewApiService.class);
         Call<List<ReviewResponseDTO>> call = service.getReviewListByChildId(childId);
 
         call.enqueue(new Callback<List<ReviewResponseDTO>>() {
@@ -109,5 +111,18 @@ public class ChildMyReviewList extends AppCompatActivity {
                 reviewView.findViewById(starIds[i]).setBackgroundResource(R.drawable.star_empty);
             }
         }
+    }
+
+    private Long getSubFromToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("jwt_token", null);
+
+        if (token != null) {
+            JWT jwt = new JWT(token);
+            Claim subClaim = jwt.getClaim("sub");
+            return subClaim.asLong();  // sub 값을 Long으로 변환하여 반환
+        }
+
+        return null;
     }
 }
