@@ -18,14 +18,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.eatda.R;
 import com.eatda.data.api.childManagement.SponsorChildManagementApiService;
 import com.eatda.data.api.childManagement.SponsorChildManagementRetrofitClient;
+import com.eatda.data.api.order.OrderApiService;
+import com.eatda.data.api.order.OrderRetrofitClient;
 import com.eatda.data.form.childManagement.ChildResponse;
+import com.eatda.data.form.order.OrderResponse;
 import com.eatda.data.form.sponsor.SponsorDTO;
+import com.eatda.ui.order.OrderAdapter;
+import com.eatda.ui.order.RecentOrderAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +51,14 @@ public class ChildMgmt extends AppCompatActivity {
 
     private LinearLayout childContainer; // 아동 정보를 표시할 레이아웃
     private Long sponsorID;
+    private Long childId;
     private String sponsorName;
     private String sponsorAddress;
     private String sponsorEmail;
     private String sponsorNumber;
     private int inputPrice;  // 사용자가 입력한 금액 저장
+    private RecyclerView recyclerView;
+    private RecentOrderAdapter recentOrderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +73,10 @@ public class ChildMgmt extends AppCompatActivity {
 
         childContainer = findViewById(R.id.childContainer);
 
+        recyclerView = findViewById(R.id.recentOrdersRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         sponsorID = getSubFromToken();
-        Log.d("sponsorID :", "현재 후원자 아이디는 " + sponsorID);
 
         fetchChildrenData(sponsorID);
     }
@@ -78,7 +90,20 @@ public class ChildMgmt extends AppCompatActivity {
             public void onResponse(Call<List<ChildResponse>> call, Response<List<ChildResponse>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<ChildResponse> children = response.body();
+
+                    // 첫 번째 아동의 ID를 설정
+                    if (!children.isEmpty()) {
+                        childId = children.get(0).getId(); // 첫 번째 아동 ID를 childId로 설정
+                    }
+
                     displayChildren(children);
+
+                    // childId가 설정된 후에 loadOrders 호출
+                    if (childId != null) {
+                        loadOrders(childId);
+                    } else {
+                        Toast.makeText(ChildMgmt.this, "아동 ID가 설정되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(ChildMgmt.this, "아동 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
                 }
@@ -88,6 +113,27 @@ public class ChildMgmt extends AppCompatActivity {
             public void onFailure(Call<List<ChildResponse>> call, Throwable t) {
                 Toast.makeText(ChildMgmt.this, "API 호출 실패: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", t.getMessage(), t);
+            }
+        });
+    }
+
+    private void loadOrders(Long sponsorID) {
+        OrderApiService service = OrderRetrofitClient.getRetrofitInstance(this).create(OrderApiService.class);
+
+        Call<List<OrderResponse>> call = service.getOrderByChildId(sponsorID);
+        call.enqueue(new Callback<List<OrderResponse>>() {
+            @Override
+            public void onResponse(Call<List<OrderResponse>> call, Response<List<OrderResponse>> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    recentOrderAdapter = new RecentOrderAdapter(response.body());
+                    recyclerView.setAdapter(recentOrderAdapter);
+                }else{
+                    Toast.makeText(getApplicationContext(), "주문내역이 없습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<OrderResponse>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -102,6 +148,7 @@ public class ChildMgmt extends AppCompatActivity {
             TextView childEmail = childView.findViewById(R.id.child_email);
             TextView childPhone = childView.findViewById(R.id.child_phone);
             TextView childAddress = childView.findViewById(R.id.child_address);
+            TextView childPoint = childView.findViewById(R.id.child_points_value);
             Button deleteButton = childView.findViewById(R.id.delete_button);
             Button giveButton = childView.findViewById(R.id.give_button);
 
@@ -109,6 +156,7 @@ public class ChildMgmt extends AppCompatActivity {
             childEmail.setText(child.getChildEmail());
             childPhone.setText(child.getChildNumber());
             childAddress.setText(child.getChildAddress());
+            childPoint.setText(String.valueOf(child.getChildAmount()));
 
             deleteButton.setOnClickListener(v -> {
                 SponsorChildManagementApiService service = SponsorChildManagementRetrofitClient.getRetrofitInstance(this).create(SponsorChildManagementApiService.class);
