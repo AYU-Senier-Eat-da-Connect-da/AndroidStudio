@@ -7,6 +7,7 @@ public class SponsorDTO {
     private String sponsorAddress;
     private int sponsorAmount;
     private String sponsorNumber;
+    private String fcmToken;
 
     public Long getSponsorId(){
         return this.id;
@@ -26,6 +27,14 @@ public class SponsorDTO {
 
     public String getSponsorAddress(){
         return this.sponsorAddress;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getFcmToken() {
+        return fcmToken;
     }
 
     public int getSponsorAmount(){

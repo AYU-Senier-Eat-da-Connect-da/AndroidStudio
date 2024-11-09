@@ -18,9 +18,12 @@ import com.auth0.android.jwt.JWT;
 import com.eatda.R;
 import com.eatda.data.api.child.ChildApiService;
 import com.eatda.data.api.child.ChildRetrofitClient;
+import com.eatda.data.api.firebase.FcmApi;
+import com.eatda.data.api.firebase.FcmRetrofitClient;
 import com.eatda.data.api.order.OrderApiService;
 import com.eatda.data.api.order.OrderRetrofitClient;
 import com.eatda.data.form.childManagement.ChildResponse;
+import com.eatda.data.form.firbase.FCMNotificationRequestDTO;
 import com.eatda.data.form.menu.MenuResponse;
 import com.eatda.data.form.order.MenuOrder;
 import com.eatda.data.form.order.OrderRequest;
@@ -98,7 +101,12 @@ public class Order extends AppCompatActivity {
             @Override
             public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if (response.isSuccessful()) {
-                    // 성공 처리 - 확인 메시지 표시
+                    //알람처리
+                    Long userId = 1L;
+                    String userType = "PRESIDENT";
+                    FCMNotificationRequestDTO requestDTO = new FCMNotificationRequestDTO("포장 주문", "주문이 들어왔어요");
+                    fcm(userId, userType, requestDTO);
+                    showOrderPopup();
                     Toast.makeText(Order.this, "주문이 성공적으로 완료되었습니다!", Toast.LENGTH_SHORT).show();
                 } else {
                     // 실패 처리 - 오류 메시지 표시
@@ -160,6 +168,36 @@ public class Order extends AppCompatActivity {
         childPhone.setText(child.getChildNumber());
         childAmount.setText(String.format("%,d 원", child.getChildAmount()));
 
+    }
+
+    private void fcm(Long userId, String userType, FCMNotificationRequestDTO requestDTO){
+        FcmApi service = FcmRetrofitClient.getRetrofitInstance().create(FcmApi.class);
+
+        Call<String> call = service.sendNotification(userId, userType, requestDTO);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "알림 전송 성공!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "알림 전송 실패: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "알림 전송 오류: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showOrderPopup() {
+        runOnUiThread(() -> {
+            new androidx.appcompat.app.AlertDialog.Builder(Order.this)
+                    .setTitle("주문 완료")
+                    .setMessage("주문이 성공적으로 완료되었습니다!")
+                    .setPositiveButton("확인", (dialog, which) -> dialog.dismiss())
+                    .show();
+        });
     }
 
     private Long getSubFromToken() {
