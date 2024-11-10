@@ -232,7 +232,12 @@
 
     </ScrollView>
 
-    <!-- 하단 네비게이션 -->
+    <include
+        android:id="@+id/navigation_bar_include"
+        layout="@layout/navigation_bar"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- 하단 네비게이션
     <LinearLayout
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -258,7 +263,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/resize_home" />
+            android:src="@drawable/resize_home" />
 
         <ImageButton
             android:id="@+id/btn_myPage"
@@ -267,6 +272,6 @@
             android:src="@drawable/resize_myinformation"
             android:background="@null"
             android:layout_weight="1" />
-    </LinearLayout>
+    </LinearLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

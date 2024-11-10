@@ -16,7 +16,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.eatda.MainActivity;
 import com.eatda.ui.Join;
-import com.eatda.ui.Login;
 import com.eatda.R;
 import com.eatda.data.api.login.LoginApiService;
 import com.eatda.data.api.login.LoginRetrofitClient;
@@ -163,5 +162,3 @@ public class ChildJoin extends AppCompatActivity {
         builder.show();
     }
 }
-
-

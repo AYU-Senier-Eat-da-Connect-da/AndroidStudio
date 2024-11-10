@@ -93,9 +93,9 @@ public class AddReview extends AppCompatActivity {
         for (int i = 0; i < starRatingLayout.getChildCount(); i++) {
             ImageView starImageView = (ImageView) starRatingLayout.getChildAt(i);
             if (i < selectedStars) {
-                starImageView.setImageResource(R.drawable.star_empty); // 채워진 별
+                starImageView.setImageResource(R.drawable.star_filled); // 채워진 별
             } else {
-                starImageView.setImageResource(R.drawable.star_filled); // 빈 별
+                starImageView.setImageResource(R.drawable.star_empty); // 빈 별
             }
         }
     }
@@ -105,7 +105,7 @@ public class AddReview extends AppCompatActivity {
         selectedStars = 0; // 초기 별점 0
         for (int i = 0; i < starRatingLayout.getChildCount(); i++) {
             ImageView starImageView = (ImageView) starRatingLayout.getChildAt(i);
-            starImageView.setImageResource(R.drawable.star_filled); // 모든 별을 빈 별로 초기화
+            starImageView.setImageResource(R.drawable.star_empty); // 모든 별을 빈 별로 초기화
         }
     }
 

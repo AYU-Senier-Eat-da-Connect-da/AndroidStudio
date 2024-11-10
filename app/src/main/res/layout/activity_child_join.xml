@@ -7,14 +7,36 @@
     android:layout_height="match_parent"
     tools:context=".ui.child.ChildJoin">
 
+    <ImageView
+        android:id="@+id/JoinlogoImg"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/logo_child" />
+
+
+    <TextView
+        android:id="@+id/start_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아동으로 시작하기"
+        android:textSize="20dp"
+        app:layout_constraintTop_toBottomOf="@id/JoinlogoImg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp" />
+
     <TextView
         android:id="@+id/childPassword2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="420dp"
-        android:text="비밀번호"
+        android:text="비밀번호 재확인"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.272"
+        app:layout_constraintHorizontal_bias="0.302"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,6 +97,8 @@
         android:ems="10"
         android:inputType="text"
         android:text=""
+        android:hint="숫자만 입력해주세요"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +122,7 @@
         android:layout_marginTop="552dp"
         android:text="전화번호"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.281"
+        app:layout_constraintHorizontal_bias="0.269"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -148,27 +172,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/ChildLogoImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
-
-    <ImageView
-        android:id="@+id/ChildTextImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="136dp"
-        android:src="@drawable/child"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.797"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_childPrevious"
@@ -176,6 +179,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="636dp"
         android:text="이전"
+        android:backgroundTint="#A9EB83"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.297"
         app:layout_constraintStart_toStartOf="parent"
@@ -187,6 +192,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="636dp"
         android:text="회원 가입"
+        android:backgroundTint="#A9EB83"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.661"
         app:layout_constraintStart_toStartOf="parent"
