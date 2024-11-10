@@ -43,7 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/testimg" /> <!-- 기본 이미지 -->
+                    android:src="@drawable/empty_image" /> <!-- 기본 이미지 -->
 
                 <Button
                     android:id="@+id/select_photo_button"

@@ -16,28 +16,28 @@
         app:layout_constraintStart_toStartOf="parent"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="70dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:background="@drawable/rounded_background"
-            android:backgroundTint="#A9EB83"
+            android:background="@android:color/white"
             android:padding="8dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_margin="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 app:srcCompat="@drawable/logo2" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="18dp"
+                android:text="지도로 가게 찾기"
+                android:textSize="15dp"/>
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="300dp"
-                android:layout_height="40dp"
-                app:srcCompat="@drawable/image_view_kakaomap" />
         </LinearLayout>
 
-        <!-- 맵뷰 아래쪽 중앙에 위치한 버튼 -->
         <Button
             android:id="@+id/btn_my_location"
             android:layout_width="177dp"
