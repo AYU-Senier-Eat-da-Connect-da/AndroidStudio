@@ -18,7 +18,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.eatda.MainActivity;
 import com.eatda.ui.Join;
-//import com.eatda.ui.Login;
 import com.eatda.R;
 import com.eatda.data.api.login.LoginApiService;
 import com.eatda.data.api.login.LoginRetrofitClient;
@@ -27,6 +26,7 @@ import com.eatda.data.api.presidentBusinessNumberCheck.PresidentBusinessNumberCh
 import com.eatda.data.form.presidentBusinessNumberCheck.PresidentBusinessRequest;
 import com.eatda.data.form.presidentBusinessNumberCheck.PresidentBusinessResponse;
 import com.eatda.data.api.presidentBusinessNumberCheck.PresidentBusinessNumberCheckRetrofitClient;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 import java.util.Collections;
@@ -44,6 +44,7 @@ public class PresidentJoin extends AppCompatActivity {
     private EditText text_password;
     private EditText text_password2;
     private EditText text_number;
+    private String fcmToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,26 @@ public class PresidentJoin extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // FCM 토큰 가져오기
+        FirebaseMessaging.getInstance().deleteToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("FCM Token", "Token deleted. Fetching new token...");
+                        FirebaseMessaging.getInstance().getToken()
+                                .addOnCompleteListener(newTask -> {
+                                    if (newTask.isSuccessful() && newTask.getResult() != null) {
+                                        fcmToken = newTask.getResult();
+                                        Log.d("FCM Token", "New Token: " + fcmToken);
+                                    } else {
+                                        Log.e("FCM Token", "Failed to fetch new token");
+                                    }
+                                });
+                    } else {
+                        Log.e("FCM Token", "Failed to delete token: " + task.getException());
+                    }
+                });
+
 
         Button btn_presidentEnter = findViewById(R.id.btn_presidentEnter);
         Button btn_presidentPrevious = findViewById(R.id.btn_presidentPrevious);
@@ -131,7 +152,7 @@ public class PresidentJoin extends AppCompatActivity {
 
     private void joinPresident(String presidentName, String presidentEmail, String presidentPassword, String presidentNumber, String presidentBusinessNumber){
         LoginApiService loginApiService = LoginRetrofitClient.getRetrofitInstance().create(LoginApiService.class);
-        PresidentJoinRequest requestBody = new PresidentJoinRequest(presidentName, presidentEmail, presidentPassword, presidentNumber ,presidentBusinessNumber);
+        PresidentJoinRequest requestBody = new PresidentJoinRequest(presidentName, presidentEmail, presidentPassword, presidentNumber ,presidentBusinessNumber, fcmToken);
 
         Call<String> call = loginApiService.joinPresident(requestBody);
         call.enqueue(new Callback<String>() {

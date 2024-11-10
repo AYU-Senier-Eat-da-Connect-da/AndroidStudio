@@ -16,17 +16,19 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.eatda.MainActivity;
 import com.eatda.ui.Join;
-//import com.eatda.ui.Login;
 import com.eatda.R;
 import com.eatda.data.api.login.LoginApiService;
 import com.eatda.data.api.login.LoginRetrofitClient;
 import com.eatda.data.form.login.ChildJoinRequest;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChildJoin extends AppCompatActivity {
+
+    private String fcmToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,29 @@ public class ChildJoin extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // FCM 토큰 가져오기
+        /*
+        FirebaseMessaging.getInstance().deleteToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("FCM Token", "Token deleted. Fetching new token...");
+                        FirebaseMessaging.getInstance().getToken()
+                                .addOnCompleteListener(newTask -> {
+                                    if (newTask.isSuccessful() && newTask.getResult() != null) {
+                                        fcmToken = newTask.getResult();
+                                        Log.d("FCM Token", "New Token: " + fcmToken);
+                                    } else {
+                                        Log.e("FCM Token", "Failed to fetch new token");
+                                    }
+                                });
+                    } else {
+                        Log.e("FCM Token", "Failed to delete token: " + task.getException());
+                    }
+                });
+
+         */
+
 
         Button btn_childEnter = findViewById(R.id.btn_childEnter);
         EditText text_name = findViewById(R.id.childNameText);
@@ -91,7 +116,7 @@ public class ChildJoin extends AppCompatActivity {
 
     private void joinChild(String childName, String childEmail, String childPassword, String childNumber, String childAddress) {
         LoginApiService loginApiService = LoginRetrofitClient.getRetrofitInstance().create(LoginApiService.class);
-        ChildJoinRequest requestBody = new ChildJoinRequest(childName, childEmail, childPassword, childNumber, childAddress);
+        ChildJoinRequest requestBody = new ChildJoinRequest(childName, childEmail, childPassword, childNumber, childAddress, fcmToken);
 
         Call<String> call = loginApiService.joinChild(requestBody);
         call.enqueue(new Callback<String>() {
@@ -137,5 +162,3 @@ public class ChildJoin extends AppCompatActivity {
         builder.show();
     }
 }
-
-

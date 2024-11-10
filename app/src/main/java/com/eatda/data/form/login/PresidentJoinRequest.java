@@ -6,12 +6,14 @@ public class PresidentJoinRequest {
     private String presidentEmail;
     private String presidentPassword;
     private String presidentNumber;
+    private String fcmToken;
 
-    public PresidentJoinRequest(String presidentName, String presidentEmail, String presidentPassword,String presidentNumber, String presidentBusinessNumber) {
+    public PresidentJoinRequest(String presidentName, String presidentEmail, String presidentPassword,String presidentNumber, String presidentBusinessNumber, String fcmToken) {
         this.presidentName = presidentName;
         this.presidentEmail = presidentEmail;
         this.presidentPassword = presidentPassword;
         this.presidentNumber = presidentNumber;
         this.businessNumber = presidentBusinessNumber;
+        this.fcmToken = fcmToken;
     }
 }

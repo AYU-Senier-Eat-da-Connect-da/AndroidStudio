@@ -16,17 +16,19 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.eatda.MainActivity;
 import com.eatda.ui.Join;
-//import com.eatda.ui.Login;
 import com.eatda.R;
 import com.eatda.data.api.login.LoginApiService;
 import com.eatda.data.api.login.LoginRetrofitClient;
 import com.eatda.data.form.login.SponsorJoinRequest;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SponsorJoin extends AppCompatActivity {
+
+    private String fcmToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,38 @@ public class SponsorJoin extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // FCM 토큰 가져오기
+        /* 기존 fcm 토큰 코드
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        fcmToken = task.getResult();
+                        Log.d("FCM Token", "Token: " + fcmToken);
+                    } else {
+                        Log.e("FCM Token", "Failed to fetch FCM token");
+                    }
+                });
+
+         */
+        FirebaseMessaging.getInstance().deleteToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("FCM Token", "Token deleted. Fetching new token...");
+                        FirebaseMessaging.getInstance().getToken()
+                                .addOnCompleteListener(newTask -> {
+                                    if (newTask.isSuccessful() && newTask.getResult() != null) {
+                                        fcmToken = newTask.getResult();
+                                        Log.d("FCM Token", "New Token: " + fcmToken);
+                                    } else {
+                                        Log.e("FCM Token", "Failed to fetch new token");
+                                    }
+                                });
+                    } else {
+                        Log.e("FCM Token", "Failed to delete token: " + task.getException());
+                    }
+                });
+
 
         Button btn_sponsorEnter = findViewById(R.id.btn_sponsorEnter);
         EditText text_name = findViewById(R.id.sponsorNameText);
@@ -89,7 +123,7 @@ public class SponsorJoin extends AppCompatActivity {
 
     private void joinSponsor(String sponsorName, String sponsorEmail, String sponsorPassword, String sponsorNumber, String sponsorAddress) {
         LoginApiService loginApiService = LoginRetrofitClient.getRetrofitInstance().create(LoginApiService.class);
-        SponsorJoinRequest requestBody = new SponsorJoinRequest(sponsorName, sponsorEmail, sponsorPassword, sponsorNumber, sponsorAddress);
+        SponsorJoinRequest requestBody = new SponsorJoinRequest(sponsorName, sponsorEmail, sponsorPassword, sponsorNumber, sponsorAddress, fcmToken);
 
         Call<String> call = loginApiService.joinSponsor(requestBody);
         call.enqueue(new Callback<String>() {
@@ -137,4 +171,3 @@ public class SponsorJoin extends AppCompatActivity {
 
 
 }
-
