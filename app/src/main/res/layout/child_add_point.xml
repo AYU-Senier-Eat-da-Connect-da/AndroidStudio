@@ -9,7 +9,7 @@
         android:id="@+id/dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="충전 금액"
+        android:text="급식 카드 충전하기"
         android:textSize="18sp"
         android:paddingBottom="10dp" />
 
@@ -18,7 +18,7 @@
         android:id="@+id/inputField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="여기에 입력"
+        android:hint="충전금액 입력"
         android:inputType="number" /> <!-- 숫자만 입력 받기 -->
 
     <!-- 확인 및 취소 버튼을 가로로 배치하는 LinearLayout -->
@@ -34,13 +34,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="결제하기" />
+            android:text="결제하기"
+            android:textColor="#000000"
+            android:backgroundTint="#A9EB83"/>
 
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="취소" />
+            android:text="취소"
+            android:textColor="#000000"
+            android:backgroundTint="#A9EB83"/>
     </LinearLayout>
 </LinearLayout>

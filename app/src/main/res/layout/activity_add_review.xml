@@ -28,14 +28,14 @@
             android:text="음식이 어떠셨나요? 리뷰를 작성해주세요"
             android:textSize="20dp"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"/>
 
         <!-- 별점 선택 -->
         <LinearLayout
             android:id="@+id/star_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:orientation="horizontal"
             android:layout_gravity="center">
 
