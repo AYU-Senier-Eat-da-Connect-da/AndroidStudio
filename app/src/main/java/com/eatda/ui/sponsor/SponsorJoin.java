@@ -54,6 +54,7 @@ public class SponsorJoin extends AppCompatActivity {
                 });
 
          */
+
         FirebaseMessaging.getInstance().deleteToken()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

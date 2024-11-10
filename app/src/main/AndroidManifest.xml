@@ -94,9 +94,6 @@
             android:name=".ui.president.PresidentMyPage"
             android:exported="false" />
         <activity
-            android:name=".ui.PermissionBasedMyPage"
-            android:exported="false" />
-        <activity
             android:name=".ui.review.ChildMyReviewList"
             android:exported="false" />
         <activity
@@ -128,9 +125,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.Join"
-            android:exported="false" />
-        <activity
-            android:name=".ui.Login"
             android:exported="false" />
         <activity
             android:name=".ui.home.Home"

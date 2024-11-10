@@ -58,21 +58,13 @@ public class PresidentJoin extends AppCompatActivity {
         });
 
         // FCM 토큰 가져오기
-        FirebaseMessaging.getInstance().deleteToken()
+        FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Log.d("FCM Token", "Token deleted. Fetching new token...");
-                        FirebaseMessaging.getInstance().getToken()
-                                .addOnCompleteListener(newTask -> {
-                                    if (newTask.isSuccessful() && newTask.getResult() != null) {
-                                        fcmToken = newTask.getResult();
-                                        Log.d("FCM Token", "New Token: " + fcmToken);
-                                    } else {
-                                        Log.e("FCM Token", "Failed to fetch new token");
-                                    }
-                                });
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        fcmToken = task.getResult();
+                        Log.d("FCM Token", "Token: " + fcmToken);
                     } else {
-                        Log.e("FCM Token", "Failed to delete token: " + task.getException());
+                        Log.e("FCM Token", "Failed to fetch FCM token");
                     }
                 });
 

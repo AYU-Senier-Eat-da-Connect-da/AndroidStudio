@@ -3,6 +3,7 @@ package com.eatda.ui.order;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -43,11 +44,14 @@ public class Order extends AppCompatActivity {
     private Long restaurantId;
     private Long childId;
     private ArrayList<MenuResponse> selectedMenus = new ArrayList<>();
+    private static final int REQUEST_ALARM_PERMISSION = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+
+        requestAlarmPermission();
 
         Intent intent = getIntent();
         restaurantId = intent.getLongExtra("restaurantId",-1);
@@ -211,5 +215,13 @@ public class Order extends AppCompatActivity {
         }
 
         return null;
+    }
+
+    private void requestAlarmPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, REQUEST_ALARM_PERMISSION);
+            }
+        }
     }
 }
