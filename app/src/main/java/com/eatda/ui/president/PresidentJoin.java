@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -17,7 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.eatda.MainActivity;
 import com.eatda.ui.Join;
-import com.eatda.ui.Login;
+//import com.eatda.ui.Login;
 import com.eatda.R;
 import com.eatda.data.api.login.LoginApiService;
 import com.eatda.data.api.login.LoginRetrofitClient;
@@ -57,7 +58,7 @@ public class PresidentJoin extends AppCompatActivity {
 
         Button btn_presidentEnter = findViewById(R.id.btn_presidentEnter);
         Button btn_presidentPrevious = findViewById(R.id.btn_presidentPrevious);
-        Button btn_presidnetBusinessNumberCheck = findViewById(R.id.BusinessNumberCheckBtn);
+        ImageButton btn_presidnetBusinessNumberCheck = findViewById(R.id.BusinessNumberCheckBtn);
         text_presidentBusinessNumber = findViewById(R.id.presidentBusinessNumberText);
         text_name = findViewById(R.id.presidentNameText);
         text_email = findViewById(R.id.presidentEmailText);
