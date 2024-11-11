@@ -42,7 +42,7 @@ public class ChildJoin extends AppCompatActivity {
         });
 
         // FCM 토큰 가져오기
-        /*
+
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
@@ -53,7 +53,7 @@ public class ChildJoin extends AppCompatActivity {
                     }
                 });
 
-         */
+
 
 
         Button btn_childEnter = findViewById(R.id.btn_childEnter);
