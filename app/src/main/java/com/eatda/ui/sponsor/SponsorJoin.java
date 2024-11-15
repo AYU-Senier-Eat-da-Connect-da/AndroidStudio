@@ -42,7 +42,7 @@ public class SponsorJoin extends AppCompatActivity {
         });
 
         // FCM 토큰 가져오기
-        /* 기존 fcm 토큰 코드
+        // 기존 fcm 토큰 코드
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
@@ -53,8 +53,8 @@ public class SponsorJoin extends AppCompatActivity {
                     }
                 });
 
-         */
 
+/*
         FirebaseMessaging.getInstance().deleteToken()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -72,7 +72,7 @@ public class SponsorJoin extends AppCompatActivity {
                         Log.e("FCM Token", "Failed to delete token: " + task.getException());
                     }
                 });
-
+*/
 
         Button btn_sponsorEnter = findViewById(R.id.btn_sponsorEnter);
         EditText text_name = findViewById(R.id.sponsorNameText);

@@ -2,6 +2,7 @@ package com.eatda.ui.childManagement;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,11 +27,15 @@ import com.auth0.android.jwt.JWT;
 import com.eatda.R;
 import com.eatda.data.api.childManagement.SponsorChildManagementApiService;
 import com.eatda.data.api.childManagement.SponsorChildManagementRetrofitClient;
+import com.eatda.data.api.firebase.FcmApi;
+import com.eatda.data.api.firebase.FcmRetrofitClient;
 import com.eatda.data.api.order.OrderApiService;
 import com.eatda.data.api.order.OrderRetrofitClient;
 import com.eatda.data.form.childManagement.ChildResponse;
+import com.eatda.data.form.firbase.FCMNotificationRequestDTO;
 import com.eatda.data.form.order.OrderResponse;
 import com.eatda.data.form.sponsor.SponsorDTO;
+import com.eatda.ui.order.Order;
 import com.eatda.ui.order.OrderAdapter;
 import com.eatda.ui.order.RecentOrderAdapter;
 
@@ -59,6 +64,7 @@ public class ChildMgmt extends AppCompatActivity {
     private int inputPrice;  // 사용자가 입력한 금액 저장
     private RecyclerView recyclerView;
     private RecentOrderAdapter recentOrderAdapter;
+    private static final int REQUEST_ALARM_PERMISSION = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -265,6 +271,9 @@ public class ChildMgmt extends AppCompatActivity {
                     public void onDone(String data) {
                         Log.d("done", data);
                         Toast.makeText(ChildMgmt.this, "끝", Toast.LENGTH_SHORT).show();
+                                //후원 알람 전송하는 메서드 추가
+                        FCMNotificationRequestDTO requestDTO = new FCMNotificationRequestDTO("후원 알림", "후원자가 " + price +  "원을 후원하였습니다.");
+                        fcm(childId, "CHILD", requestDTO);
                     }
                 }).requestPayment();
     }
@@ -342,5 +351,43 @@ public class ChildMgmt extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void fcm(Long userId, String userType, FCMNotificationRequestDTO requestDTO){
+        FcmApi service = FcmRetrofitClient.getRetrofitInstance().create(FcmApi.class);
+
+        Call<String> call = service.sendNotification(userId, userType, requestDTO);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "알림 전송 성공!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "알림 전송 실패: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "알림 전송 오류: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showOrderPopup() {
+        runOnUiThread(() -> {
+            new androidx.appcompat.app.AlertDialog.Builder(ChildMgmt.this)
+                    .setTitle("후원 완료")
+                    .setMessage("후원이 성공적으로 완료되었습니다!")
+                    .setPositiveButton("확인", (dialog, which) -> dialog.dismiss())
+                    .show();
+        });
+    }
+
+    private void requestAlarmPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, REQUEST_ALARM_PERMISSION);
+            }
+        }
     }
 }
