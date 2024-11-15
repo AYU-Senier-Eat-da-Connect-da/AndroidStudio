@@ -93,7 +93,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
             LocalDateTime now = LocalDateTime.now();
             Duration duration = Duration.between(order.getOrderTime(), now);
-            long delay = 10000 - duration.toMillis(); // 10분 = 600000ms
+            long delay = 150000 - duration.toMillis(); // 10분 = 600000ms
 
             if (delay > 0) {
                 // 10초가 지나지 않았을 경우 딜레이 후 버튼 표시
