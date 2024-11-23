@@ -91,8 +91,6 @@ public class ChildJoin extends AppCompatActivity {
                 }else{
                     joinChild(childName, childEmail, childPassword, childNumber, childAddress);
                 }
-
-
             }
         });
 
@@ -149,6 +147,7 @@ public class ChildJoin extends AppCompatActivity {
             if (shouldStartIntent) {
                 Intent intent = new Intent(ChildJoin.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         builder.show();

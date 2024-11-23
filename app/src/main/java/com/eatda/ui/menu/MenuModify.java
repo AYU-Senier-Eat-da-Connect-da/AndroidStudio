@@ -163,6 +163,7 @@ public class MenuModify extends AppCompatActivity {
             if (shouldStartIntent) {
                 Intent intent = new Intent(MenuModify.this, RestaurantsMgmt.class);
                 startActivity(intent);
+                finish();
             }
         });
         builder.show();

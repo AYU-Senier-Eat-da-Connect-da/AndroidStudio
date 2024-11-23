@@ -158,6 +158,7 @@ public class MenuAdd extends AppCompatActivity {
             if (shouldStartIntent) {
                 Intent intent = new Intent(MenuAdd.this, RestaurantsMgmt.class);
                 startActivity(intent);
+                finish();
             }
         });
         builder.show();

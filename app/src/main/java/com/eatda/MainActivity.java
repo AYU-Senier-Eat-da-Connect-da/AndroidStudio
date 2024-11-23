@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "환영합니다.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this, Home.class);
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(MainActivity.this, "로그인 실패.", Toast.LENGTH_SHORT).show();
                 }

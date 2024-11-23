@@ -216,6 +216,7 @@ public class PresidentJoin extends AppCompatActivity {
             if (shouldStartIntent) {
                 Intent intent = new Intent(PresidentJoin.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         builder.show();
