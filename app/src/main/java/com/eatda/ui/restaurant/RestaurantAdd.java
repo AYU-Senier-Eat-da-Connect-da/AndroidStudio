@@ -178,10 +178,10 @@ public class RestaurantAdd extends AppCompatActivity {
         builder.setMessage(message);
         builder.setPositiveButton("확인", (dialog, which) -> {
             dialog.dismiss();
-            // Intent를 실행해야 하는 경우
             if (shouldStartIntent) {
                 Intent intent = new Intent(RestaurantAdd.this, RestaurantsMgmt.class);
                 startActivity(intent);
+                finish();
             }
         });
         builder.show();

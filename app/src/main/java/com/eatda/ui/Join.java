@@ -36,6 +36,7 @@ public class Join extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Join.this, PresidentJoin.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -45,6 +46,7 @@ public class Join extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Join.this, ChildJoin.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -54,6 +56,7 @@ public class Join extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Join.this, SponsorJoin.class);
                 startActivity(intent);
+                finish();
             }
         });
 

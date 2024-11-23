@@ -22,13 +22,17 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
+import com.eatda.MainActivity;
 import com.eatda.R;
 import com.eatda.data.api.child.ChildApiService;
 import com.eatda.data.api.child.ChildRetrofitClient;
+import com.eatda.data.api.login.LoginApiService;
+import com.eatda.data.api.login.LogoutRetrofitClient;
 import com.eatda.data.form.childManagement.ChildResponse;
 import com.eatda.ui.childManagement.ChildMgmt;
 import com.eatda.ui.review.AddReview;
 import com.eatda.ui.review.ChildMyReviewList;
+import com.eatda.ui.sponsor.SponsorMyPage;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -52,6 +56,7 @@ public class ChildMyPage extends AppCompatActivity {
     private Button btn_card_balance;
     private Button btn_child_help;
     private Button btn_child_addPoint;
+    private Button btn_logout;
     private Long childId;
     private String childName;
     private String childEmail;
@@ -144,8 +149,31 @@ public class ChildMyPage extends AppCompatActivity {
             }
         });
 
+        /*
+        카드 충전
+         */
+
         btn_child_addPoint = findViewById(R.id.btn_addPoint);
         btn_child_addPoint.setOnClickListener(v -> showCustomDialog());
+
+                /*
+        로그아웃
+         */
+        btn_logout = findViewById(R.id.btn_logout);
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                String jwtToken = sharedPreferences.getString("jwt_token",null);
+
+                if(jwtToken != null){
+                    logout(jwtToken);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.remove("jwt_token");
+                    editor.apply();
+                }
+            }
+        });
     }
 
     private void getChild(Long childId){
@@ -319,6 +347,32 @@ public class ChildMyPage extends AppCompatActivity {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void logout(String jwtToken){
+        LoginApiService service = LogoutRetrofitClient.getRetrofitInstance().create(LoginApiService.class);
+
+        String authorizationHeader = "Bearer " + jwtToken;
+
+        Call<Void> call = service.logout(authorizationHeader);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    Intent intent = new Intent(ChildMyPage.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    Log.d("Logout", "로그아웃 성공");
+                }else{
+                    Log.d("Logout", "로그아웃 실패: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d("Logout", "네트워크 오류 실패: ");
             }
         });
     }

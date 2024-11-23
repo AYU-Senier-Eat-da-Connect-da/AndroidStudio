@@ -165,6 +165,7 @@ public class SponsorJoin extends AppCompatActivity {
             if (shouldStartIntent) {
                 Intent intent = new Intent(SponsorJoin.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         builder.show();

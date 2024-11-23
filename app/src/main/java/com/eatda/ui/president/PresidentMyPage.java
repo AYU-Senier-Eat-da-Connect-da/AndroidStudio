@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,9 +18,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
+import com.eatda.MainActivity;
 import com.eatda.R;
 import com.eatda.data.api.childManagement.SponsorChildManagementApiService;
 import com.eatda.data.api.childManagement.SponsorChildManagementRetrofitClient;
+import com.eatda.data.api.login.LoginApiService;
+import com.eatda.data.api.login.LogoutRetrofitClient;
 import com.eatda.data.api.president.PresidentApiService;
 import com.eatda.data.api.president.PresidentRetrofitClient;
 import com.eatda.data.form.president.PresidentDTO;
@@ -27,6 +31,7 @@ import com.eatda.data.form.sponsor.SponsorDTO;
 import com.eatda.ui.menu.MenuMgmt;
 import com.eatda.ui.restaurant.RestaurantsMgmt;
 import com.eatda.ui.review.RestaurantReviewList;
+import com.eatda.ui.sponsor.SponsorMyPage;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +42,7 @@ public class PresidentMyPage extends AppCompatActivity {
     private Button btn_restaurants_mgmt;
     private Button btn_menu_mgmt;
     private Button btn_president_help;
+    private Button btn_logout;
     private Long presidentId;
     private String presidentName;
     private String presidentEmail;
@@ -109,6 +115,25 @@ public class PresidentMyPage extends AppCompatActivity {
             }
         });
 
+        /*
+        로그아웃
+         */
+        btn_logout = findViewById(R.id.btn_logout);
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                String jwtToken = sharedPreferences.getString("jwt_token",null);
+
+                if(jwtToken != null){
+                    logout(jwtToken);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.remove("jwt_token");
+                    editor.apply();
+                }
+            }
+        });
+
 
     }
 
@@ -168,5 +193,31 @@ public class PresidentMyPage extends AppCompatActivity {
         }
 
         return null;
+    }
+
+    private void logout(String jwtToken){
+        LoginApiService service = LogoutRetrofitClient.getRetrofitInstance().create(LoginApiService.class);
+
+        String authorizationHeader = "Bearer " + jwtToken;
+
+        Call<Void> call = service.logout(authorizationHeader);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    Intent intent = new Intent(PresidentMyPage.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    Log.d("Logout", "로그아웃 성공");
+                }else{
+                    Log.d("Logout", "로그아웃 실패: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d("Logout", "네트워크 오류 실패: ");
+            }
+        });
     }
 }
