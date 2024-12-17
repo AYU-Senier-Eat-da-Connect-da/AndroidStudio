@@ -38,7 +38,7 @@
         <!-- FireBase -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA7KkQiQ8k0Gwxl06EFKz5Pq_YQQTskn6U" />
+            android:value="[GoogleMapsAPI키]" />
         <activity
             android:name=".ui.review.RestaurantReviewList"
             android:exported="false" />

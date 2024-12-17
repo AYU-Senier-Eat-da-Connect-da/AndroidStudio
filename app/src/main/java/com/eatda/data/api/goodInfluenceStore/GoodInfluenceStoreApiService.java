@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface GoodInfluenceStoreApiService {
-    String Key = "c1d303fc6d9b40bca412e31828f322f5";
+    String Key = "선한영향력가게Key";
 
     @GET("GGGOODINFLSTOREST")
     Call<ApiResponse> getGoodInfluenceStores(

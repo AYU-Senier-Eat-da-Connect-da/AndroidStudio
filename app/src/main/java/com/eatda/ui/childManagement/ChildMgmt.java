@@ -221,7 +221,7 @@ public class ChildMgmt extends AppCompatActivity {
         items.add(item1);
 
         Payload payload = new Payload();
-        payload.setApplicationId("671016a286fd08d2213fc484")
+        payload.setApplicationId("BootPayApplicationID")
                 .setOrderName("부트페이 결제테스트")
                 .setPg("KCP")
                 .setMethod("카드")

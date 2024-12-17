@@ -64,9 +64,6 @@ public class ChildMyPage extends AppCompatActivity {
     private String childAddress;
     private int childAmount;
     private int inputPrice;
-
-
-    //Todo: 임시 (삭제필요). 주문했던 정보에서 리뷰를 작성 할 수 있게 해야함
     private Button btn_addReview;
 
     @Override
@@ -83,9 +80,6 @@ public class ChildMyPage extends AppCompatActivity {
         childId = getSubFromToken();
         getChild(childId);
 
-        /*
-            리뷰 작성 Todo: 임시. 삭제필요
-        */
 
         btn_addReview = findViewById(R.id.btn_addReview);
         btn_addReview.setOnClickListener(new View.OnClickListener() {
@@ -276,7 +270,7 @@ public class ChildMyPage extends AppCompatActivity {
         items.add(item1);
 
         Payload payload = new Payload();
-        payload.setApplicationId("671016a286fd08d2213fc484")
+        payload.setApplicationId("BootPayApplicationID")
                 .setOrderName("부트페이 결제테스트")
                 .setPg("KCP")
                 .setMethod("카드")

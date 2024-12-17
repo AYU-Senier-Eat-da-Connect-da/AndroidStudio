@@ -70,7 +70,7 @@ public class MyLocationMap extends AppCompatActivity {
         setContentView(R.layout.activity_my_location_map);
 
         // 네이티브 앱키
-        KakaoMapSdk.init(this, "450f27ad0485316934257dcaa021f621"); // 자신의 앱키로 변경
+        KakaoMapSdk.init(this, "AppKEY"); // 자신의 앱키로 변경
 
         // 위치 권한 요청
         requestLocationPermission();
